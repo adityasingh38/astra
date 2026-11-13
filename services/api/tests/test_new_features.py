@@ -1,14 +1,15 @@
-import asyncio
+from copy import deepcopy
 
 import pytest
-import httpx
+from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 from app.derived import antardashas, divisional_sign
-from app.engine import calculate
-from app.interpretation import ReadingRequest, facts_for, generate_reading, validate_reading
+from app.engine import SIGNS, calculate
+from app.interpretation import ReadingRequest, compose_reading, facts_for
 from app.main import app
 from app.models import BirthProfile
+from app.reading_catalog import ASPECT_PASSAGES, D9_PASSAGES, ROLE_PASSAGES, SIGN_PASSAGES, TOPIC_BODIES
 from app.timezone import resolve_utc
 
 
@@ -31,64 +32,57 @@ def test_divisional_mapping_and_dasha_coverage():
     assert periods[-1]["end_utc"] == chart["vedic"]["mahadashas"][0]["end_utc"]
 
 
-def test_reading_rejects_unverified_content():
-    facts = facts_for(sample_chart(), "western", "love")
-    first = next(iter(facts))
-    good = {"title": "A reflective reading", "sentences": [{"text": "You may seek closeness through patient conversation.", "fact_ids": [first]}, {"text": "Notice what helps you feel heard and at ease.", "fact_ids": [first]}]}
-    assert validate_reading(good, facts).title
-    with pytest.raises(ValueError, match="unknown fact"):
-        validate_reading({**good, "sentences": [{"text": "You may seek closeness through patient conversation.", "fact_ids": ["fake"]}, good["sentences"][1]]}, facts)
-    with pytest.raises(ValueError, match="chart label"):
-        validate_reading({**good, "sentences": [{"text": "Venus in Gemini guarantees a perfect match.", "fact_ids": [first]}, good["sentences"][1]]}, facts)
+def test_catalog_covers_every_supported_placement():
+    for topic, bodies in TOPIC_BODIES.items():
+        assert set(SIGN_PASSAGES[topic]) == set(SIGNS)
+        for lens in ("western", "vedic"):
+            assert set(ROLE_PASSAGES[lens][topic]) == set(bodies)
+    assert set(D9_PASSAGES) == set(SIGNS)
+    assert set(ASPECT_PASSAGES) == {"conjunction", "sextile", "square", "trine", "opposition"}
 
 
-def test_unknown_time_excludes_moon_from_reading_facts():
+def test_every_reading_is_an_authored_collection_with_cited_facts():
+    chart = sample_chart()
+    for lens in ("western", "vedic"):
+        for topic in ("identity", "love", "career"):
+            result = compose_reading(chart, ReadingRequest(lens=lens, topic=topic))
+            assert result["source"] == "astra_catalog"
+            assert 2 <= len(result["reading"]["entries"]) <= 5
+            for entry in result["reading"]["entries"]:
+                assert entry["passage_ids"]
+                assert all(fact_id in result["facts"] for fact_id in entry["fact_ids"])
+    vedic_love = compose_reading(chart, ReadingRequest(lens="vedic", topic="love"))
+    assert any("vedic.d9_venus" in entry["fact_ids"] for entry in vedic_love["reading"]["entries"])
+
+
+def test_unknown_birth_time_excludes_sensitive_passages():
     chart = sample_chart()
     chart["birth_profile"]["time_known"] = False
-    facts = facts_for(chart, "vedic", "love")
-    assert "vedic.moon" not in facts
-    assert "vedic.nakshatra" not in facts
+    assert "vedic.moon" not in facts_for(chart, "vedic", "love")
+    result = compose_reading(chart, ReadingRequest(lens="vedic", topic="love"))
+    assert len(result["reading"]["entries"]) == 2
+    assert all("moon" not in fact_id and "d9" not in fact_id for entry in result["reading"]["entries"] for fact_id in entry["fact_ids"])
 
 
-def test_ai_reading_rejects_ephemeris_fallback():
-    from fastapi import HTTPException
+def test_sign_and_lens_change_selected_passages():
+    chart = sample_chart()
+    request = ReadingRequest(lens="western", topic="identity")
+    first = compose_reading(chart, request)["reading"]["entries"][0]["text"]
+    edited = deepcopy(chart)
+    original = chart["western"]["positions"]["Sun"]["sign"]
+    edited["western"]["positions"]["Sun"]["sign"] = "Aries" if original != "Aries" else "Taurus"
+    second = compose_reading(edited, request)["reading"]["entries"][0]["text"]
+    assert first != second
+    vedic = compose_reading(chart, ReadingRequest(lens="vedic", topic="identity"))["reading"]["entries"][0]["text"]
+    assert vedic != first
+
+
+def test_reading_rejects_unverified_chart():
     chart = sample_chart()
     chart["western"]["warnings"].append("Moshier fallback was used")
     with pytest.raises(HTTPException) as error:
-        asyncio.run(generate_reading(chart, ReadingRequest(lens="western", topic="identity")))
+        compose_reading(chart, ReadingRequest(lens="western", topic="identity"))
     assert error.value.status_code == 422
-
-
-def test_local_readings_use_calculated_facts_for_every_topic(monkeypatch):
-    monkeypatch.setenv("READING_PROVIDER", "local")
-    for lens in ("western", "vedic"):
-        for topic in ("identity", "love", "career"):
-            result = asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens=lens, topic=topic)))
-            assert result["source"] == "local_editorial"
-            assert len(result["reading"]["sentences"]) >= 2
-            assert all(id in result["facts"] for sentence in result["reading"]["sentences"] for id in sentence["fact_ids"])
-    unknown = sample_chart()
-    unknown["birth_profile"]["time_known"] = False
-    result = asyncio.run(generate_reading(unknown, ReadingRequest(lens="vedic", topic="love")))
-    assert all("moon" not in id for sentence in result["reading"]["sentences"] for id in sentence["fact_ids"])
-
-
-def test_exhausted_credits_fall_back_to_local_reading(monkeypatch):
-    from app import interpretation
-    monkeypatch.setenv("READING_PROVIDER", "openai")
-    monkeypatch.setenv("OPENAI_API_KEY", "test-only")
-
-    class Upstream:
-        async def __aenter__(self):
-            return self
-        async def __aexit__(self, *_):
-            pass
-        async def post(self, *_args, **_kwargs):
-            return httpx.Response(429, json={"error": {"code": "credit_balance_exhausted"}}, request=httpx.Request("POST", "https://api.openai.com/v1/responses"))
-
-    monkeypatch.setattr(interpretation.httpx, "AsyncClient", lambda **_kwargs: Upstream())
-    result = asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens="western", topic="identity")))
-    assert result["source"] == "local_editorial"
 
 
 def test_personal_chart_requires_authentication(monkeypatch):

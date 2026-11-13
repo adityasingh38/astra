@@ -2,11 +2,11 @@
 
 ## Product model
 
-One `BirthProfile` is the source of date, civil time, place, coordinates and timezone. `POST /charts/dual` resolves it once to UTC, then calculates two independent lenses. Each lens carries its own zodiac, house, node, and ayanamsa settings. UI readings must cite the facts in that lens. No LLM determines astronomical or astrological facts.
+One `BirthProfile` is the source of date, civil time, place, coordinates and timezone. `POST /charts/dual` resolves it once to UTC, then calculates two independent lenses. Each lens carries its own zodiac, house, node, and ayanamsa settings. UI readings cite the facts in that lens and consist entirely of authored passages.
 
 ## Data flow
 
-`authenticated birth input → geocoding/timezone validation → row-scoped profile storage → UTC Julian Day → Swiss Ephemeris → Western/Vedic chart facts → deterministic rules → constrained interpretation → fact validation → UI`
+`authenticated birth input → geocoding/timezone validation → row-scoped profile storage → UTC Julian Day → Swiss Ephemeris → Western/Vedic chart facts → authored passage selection → cited fact cards → UI`
 
 The server returns both a shared `birth_profile` and separate `western` and `vedic` results. Time unknown uses noon UTC only as a **planet-position reference** for that calendar day; it suppresses ascendant, houses, and dashas and marks Moon/nakshatra as time-sensitive. This is not an inferred birth time.
 
@@ -21,8 +21,8 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 - Western aspects cover conjunction, sextile, square, trine and opposition using configurable default orbs (8°, 5°, 6°, 6°, 8°). These are symbolic astrology rules, not astronomical events.
 - D9 maps 3°20′ segments: movable signs start with themselves, fixed signs at the ninth, and dual signs at the fifth. D10 maps 3° segments: odd signs start with themselves and even signs at the ninth. The API reports the mapping and suppresses divisional ascendants without a birth time.
 - Antardashas subdivide each Mahadasha in the standard planetary order, proportional to each ruler's years out of 120, using the same 365.25-day convention.
-- Free local readings select authored reflective prompts from calculated sign placements and cite fact IDs. They do not call a model. Optional AI readings receive the same allowlist of facts; validation rejects unknown citations or chart labels in model prose. Exact placements are rendered from calculation facts, not prose.
-- All readings are unavailable if the engine cannot use the pinned data. Moon-dependent reading facts are withheld when birth time is unknown. The default `READING_PROVIDER=local` makes no paid API calls; an explicit `openai` setting opts in.
+- Every Explore reading assembles authored role, sign, and where applicable aspect or D9 passages. Catalog IDs identify the selected writing; fact IDs identify the calculations that selected it. Western and Vedic role passages are distinct. No model or external reading service is called.
+- Readings are unavailable if the engine cannot use the pinned data. Moon and D9 relationship passages are withheld when birth time is unknown.
 - Today samples current planetary positions at 12:00 in the profile's timezone and reports major aspects within 2° of natal planets; it is a snapshot rather than a forecast for the whole day.
 - Connections compares major Western aspects within 5° and shows Vedic Moon nakshatra/sign and D9 Venus sign. There is no compatibility score; Moon comparisons are withheld if either birth time is unknown.
 
@@ -32,7 +32,7 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 2. **Ephemeris accuracy:** pinned data, returned flags and one independent JPL reference are tested. Broader references for houses, sidereal conventions and date boundaries remain.
 3. **Timezones:** historical IANA rules can change with tzdata updates. Persist timezone ID, input local time, fold choice, UTC result, and tzdata version. Ambiguous times require an explicit fold; nonexistent times are rejected.
 4. **Vedic conventions:** ayanamsa, node mode, divisional mapping, dasha year and Koota rules vary. Store each selection and cite the adopted ruleset.
-5. **AI claims:** the implemented validator rejects unsupported IDs and placement labels, but generated interpretation quality and factual grounding still require adversarial evaluation before release.
+5. **Editorial claims:** the authored passages need review for clarity, cultural care, and consistency with the documented calculation conventions before release.
 6. **Privacy:** profile and snapshot rows have Supabase RLS; the app offers export, profile deletion and account deletion. Account deletion and RLS require live verification with user credentials before release.
 7. **Geocoding:** the public Nominatim endpoint limits use to at most one request per second per application and requires attribution and an identifying contact. The server serializes requests and caches searches. Production requires a configured hosted Nominatim-compatible endpoint.
 8. **Operations:** the in-memory per-token rate limiter handles one instance only. Deploy a shared limiter before scaling. `/ready` checks required configuration; request logs omit tokens, queries and birth data.
@@ -42,7 +42,7 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 1. **Foundation:** project setup, onboarding, auth and row-scoped profile API implemented in source; live Supabase integration remains untested without project credentials.
 2. **Calculation core:** both lenses, houses, nakshatra and initial dasha from one UTC instant; unit tests pass.
 3. **Verified chart:** pinned ephemeris data and an independent Kochi 2002-06-21 20:20 IST reference for three bodies are tested; further references remain a release gate.
-4. **Interpretation:** fact IDs and validated structured prose implemented; live model calls and adversarial evaluation remain.
+4. **Interpretation:** authored passage catalog, passage IDs, and cited chart facts implemented; editorial review remains.
 5. **Relationships and release:** basic synastry and descriptive Vedic placements are implemented; Koota rules, live storage validation, device accessibility and deployment remain.
 
 ## MVP acceptance criteria

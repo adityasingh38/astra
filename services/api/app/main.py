@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse
 from .auth import bearer_token, current_user
 from .engine import calculate, verified_ephemeris_path
 from .geocoding import search_places
-from .interpretation import ReadingRequest, generate_reading
+from .interpretation import ReadingRequest, compose_reading
 from .models import BirthProfile
 from .relationships import compatibility, transits
 from .storage import ProfileStore, row_to_profile
@@ -57,7 +57,7 @@ async def rate_limit(request: Request, call_next):
             events = _rate_events[key]
             while events and events[0] < now - 60:
                 events.popleft()
-            if len(events) >= (5 if category == "readings" else 10):
+            if len(events) >= (30 if category == "readings" else 10):
                 return JSONResponse(status_code=429, content={"detail": "Rate limit reached; retry in a minute"}, headers={"Retry-After": "60"})
             events.append(now)
     return await call_next(request)
@@ -189,4 +189,4 @@ async def delete_profile(profile_id: UUID, _user: str = Depends(current_user), a
 @app.post("/birth-profiles/{profile_id}/readings")
 async def profile_reading(profile_id: UUID, request: ReadingRequest, _user: str = Depends(current_user), authorization: str | None = Header(default=None)):
     row = await ProfileStore(bearer_token(authorization)).get(profile_id)
-    return await generate_reading(_chart(row_to_profile(row)), request)
+    return compose_reading(_chart(row_to_profile(row)), request)

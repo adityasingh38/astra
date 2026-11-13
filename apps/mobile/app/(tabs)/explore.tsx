@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { Body, Button, Card, ChoiceChip, Divider, Eyebrow, Page, PaperCard, Title } from '../../src/ui';
 import { apiFetch } from '../../src/api';
 import { useChart } from '../../src/store';
 import { colors } from '../../src/theme';
 
-type Result = { reading: { title: string; sentences: { text: string; fact_ids: string[] }[] }; facts: Record<string, string>; lens: string; topic: string; source: 'local_editorial' | 'openai' };
+type Result = { reading: { title: string; entries: { heading: string; text: string; fact_ids: string[]; passage_ids: string[] }[] }; facts: Record<string, string>; lens: string; topic: string; source: 'astra_catalog'; catalog_version: string };
 
 export default function Explore() {
   const { profileId } = useChart();
@@ -14,6 +14,7 @@ export default function Explore() {
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  useEffect(() => { setResult(null); setError(''); }, [profileId]);
   async function generate() {
     if (!profileId) { setError('Add a birth profile first.'); return; }
     setBusy(true); setError('');
@@ -24,7 +25,7 @@ export default function Explore() {
   return <Page>
     <Eyebrow>ASTRA / EXPLORE</Eyebrow>
     <Title>Look closer.</Title>
-    <Body>Pick a question and a tradition. Locally written reflections are free, and each one stays connected to calculated chart facts.</Body>
+    <Body>Choose a focus and a tradition. ASTRA gathers written passages for the placements in your calculated chart.</Body>
     <Divider/>
     <Eyebrow>01 / YOUR LENS</Eyebrow>
     <View style={{ flexDirection: 'row', gap: 8 }}>{(['western', 'vedic'] as const).map(value => <ChoiceChip key={value} label={value} selected={lens === value} onPress={() => { setLens(value); setResult(null); }}/>)}</View>
@@ -36,6 +37,6 @@ export default function Explore() {
     </PaperCard>
     <Button title={busy ? 'Reading…' : 'Read your chart'} onPress={() => void generate()} disabled={busy}/>
     {error ? <Text accessibilityRole="alert" style={{ color: colors.ivory, borderLeftWidth: 2, borderColor: colors.paper, paddingLeft: 14 }}>{error}</Text> : null}
-    {result && <Card><Eyebrow>{result.lens.toUpperCase()} / {result.topic.toUpperCase()}</Eyebrow><Text style={{ color: colors.ivory, fontSize: 28, fontFamily: 'Georgia' }}>{result.reading.title}</Text><Divider/>{result.reading.sentences.map((sentence, i) => <View key={i} style={{ gap: 7 }}><Body>{sentence.text}</Body>{sentence.fact_ids.map(id => <Text key={id} style={{ color: colors.gold, fontSize: 12 }}>{result.facts[id]}</Text>)}</View>)}<Body>{result.source === 'local_editorial' ? 'Written reflection from calculated facts. No AI service or payment used.' : 'AI assisted reflection from calculated facts.'} Symbolic interpretation, not a prediction.</Body></Card>}
+    {result && <><Eyebrow>ASTRA COLLECTION / {result.lens.toUpperCase()} / {result.topic.toUpperCase()}</Eyebrow><Text style={{ color: colors.ivory, fontSize: 30, fontFamily: 'Georgia', fontWeight: '700' }}>{result.reading.title}</Text>{result.reading.entries.map((entry, index) => <Card key={`${entry.heading}-${index}`}><Eyebrow>{entry.heading}</Eyebrow><Body>{entry.text}</Body><Divider/>{entry.fact_ids.map(id => <Text key={id} style={{ color: colors.gold, fontSize: 12 }}>{result.facts[id]}</Text>)}</Card>)}<Body>Written in ASTRA and selected from your calculated chart. Symbolic reflection, not a prediction.</Body></>}
   </Page>;
 }

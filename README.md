@@ -4,11 +4,11 @@ An AGPL-3.0-or-later, calculation-first Expo + FastAPI implementation of one bir
 
 ## Status
 
-Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; free, locally written fact-cited readings; and optional AI readings through the OpenAI Responses API.
+Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; and readings assembled entirely from ASTRA's authored passage catalog.
 
 Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only. A birth profile is persisted in Supabase; chart results are recalculated when opened and saved once per profile fingerprint and calculation version. Today shows a noon local-time transit snapshot, not an all-day forecast. Connections shows calculated aspects and Vedic placements without a compatibility score.
 
-Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/test_engine.py`; see `docs/VERIFICATION.md` for the query and limits. Still needed before public release: signed-in Supabase and OpenAI integration tests, multi-instance rate limiting, device accessibility review, production geocoder and deployment configuration, broader chart references, and interpretation evaluation. Credentials belong in ignored local `.env` files; a fresh checkout has no live service access until they are configured.
+Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/test_engine.py`; see `docs/VERIFICATION.md` for the query and limits. Still needed before public release: signed-in Supabase integration tests, editorial review of the passage catalog, multi-instance rate limiting, device accessibility review, production geocoder and deployment configuration, and broader chart references. Credentials belong in ignored local `.env` files; a fresh checkout has no live service access until they are configured.
 
 ## Layout
 
@@ -19,15 +19,14 @@ Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/
 
 ## Local setup
 
-Requires Python 3.11+, Node 20+, npm, and a Supabase project. An OpenAI API key is optional; free local readings are the default. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
+Requires Python 3.11+, Node 20+, npm, and a Supabase project. No AI key or model installation is needed for readings. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
 
 ```sh
 python -m venv .venv
 # activate the venv for your shell
 python -m pip install -r requirements.txt
 cp .env.example .env
-# Set Supabase credentials, a contact-bearing GEOCODING_USER_AGENT,
-# and READING_PROVIDER=local. OpenAI credentials are optional.
+# Set Supabase credentials and a contact-bearing GEOCODING_USER_AGENT.
 # Bundled, SHA-256-checked Swiss Ephemeris files cover 1800–2399.
 uvicorn app.main:app --env-file .env --reload
 python -m pytest
@@ -45,13 +44,13 @@ cp .env.example .env
 npx expo start
 ```
 
-For layout review without a Supabase account, open `http://localhost:8081/preview` while Expo is running in development mode. The preview route is disabled in production builds. Its fictional Greenwich chart was computed locally for UI inspection, uses an unverified ephemeris fallback, and cannot generate AI readings.
+For layout review without a Supabase account, open `http://localhost:8081/preview` while Expo is running in development mode. The preview route is disabled in production builds. Its fictional Greenwich chart was computed locally for UI inspection, uses an unverified ephemeris fallback, and cannot produce a verified reading.
 
 The welcome starfield and chart orbit in `apps/mobile/src/sky-components.tsx` are original React Native adaptations inspired by Forever Components' [Twinkling Starfield](https://forevercomponents.com/components/cosmic-space/twinkling-starfield/) and [Orbiting Planet System](https://forevercomponents.com/components/cosmic-space/orbiting-planet-system/). The chart orbit plots calculated planetary longitudes for the selected Western or Vedic lens. No Forever HTML/CSS/JS source is bundled.
 
-The API listens on localhost by default; use `uvicorn app.main:app --env-file .env --host 0.0.0.0 --reload` for a device on your LAN. Do not put the OpenAI key or a Supabase service-role key in the mobile app. Profile requests use the signed-in user's access token so Supabase row level security applies.
+The API listens on localhost by default; use `uvicorn app.main:app --env-file .env --host 0.0.0.0 --reload` for a device on your LAN. Do not put a Supabase service-role key in the mobile app. Profile requests use the signed-in user's access token so Supabase row level security applies.
 
-Local readings use authored prompts selected from calculated sign placements and show every supporting fact. They do not call an AI service. To opt into paid AI readings later, set `READING_PROVIDER=openai` and a server-side `OPENAI_API_KEY`; exhausted API credits fall back to local readings. AI readings reject model sentences that introduce chart labels rather than citing a calculated fact card. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
+Every Explore reading is a collection of prewritten passages from `services/api/app/reading_catalog.py`. ASTRA selects passages using calculated Western or Vedic placements, returns catalog IDs, and shows the supporting chart facts. No reading calls an AI service or invents prose. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
 
 ## License and source
 
