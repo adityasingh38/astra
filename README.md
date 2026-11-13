@@ -8,7 +8,7 @@ Implemented in source: Supabase email/password sign-in and session restore; auth
 
 Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only. A birth profile is persisted in Supabase; chart results are recalculated when opened and saved once per profile fingerprint and calculation version. Today shows a noon local-time transit snapshot, not an all-day forecast. Connections shows calculated aspects and Vedic placements without a compatibility score.
 
-Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/test_engine.py`; see `docs/VERIFICATION.md` for the query and limits. Still needed before public release: live Supabase/OpenAI integration tests, multi-instance rate limiting, device accessibility review, production geocoder and deployment configuration, broader chart references, and interpretation evaluation. Your credentials have not been added, so live service paths remain unverified.
+Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/test_engine.py`; see `docs/VERIFICATION.md` for the query and limits. Still needed before public release: signed-in Supabase and OpenAI integration tests, multi-instance rate limiting, device accessibility review, production geocoder and deployment configuration, broader chart references, and interpretation evaluation. Credentials belong in ignored local `.env` files; a fresh checkout has no live service access until they are configured.
 
 ## Layout
 
