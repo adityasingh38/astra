@@ -1,0 +1,1212 @@
+{
+  "birth_profile": {
+    "name": "Illustrative profile",
+    "birth_date": "2000-01-01",
+    "birth_time": "12:00:00",
+    "time_known": true,
+    "timezone": "Europe/London",
+    "fold": null,
+    "latitude": 51.48,
+    "longitude": 0.0,
+    "place_label": "Greenwich, United Kingdom",
+    "western_houses": "placidus",
+    "ayanamsa": "lahiri",
+    "node_mode": "true"
+  },
+  "western": {
+    "zodiac": "tropical",
+    "house_system": "placidus",
+    "positions": {
+      "Sun": {
+        "sign": "Capricorn",
+        "degree": 10.36892,
+        "longitude": 280.36892,
+        "speed_longitude": 1.01943209,
+        "retrograde": false
+      },
+      "Moon": {
+        "sign": "Scorpio",
+        "degree": 13.323775,
+        "longitude": 223.323775,
+        "speed_longitude": 12.02118272,
+        "retrograde": false
+      },
+      "Mercury": {
+        "sign": "Capricorn",
+        "degree": 1.889275,
+        "longitude": 271.889275,
+        "speed_longitude": 1.55625409,
+        "retrograde": false
+      },
+      "Venus": {
+        "sign": "Sagittarius",
+        "degree": 1.565798,
+        "longitude": 241.565798,
+        "speed_longitude": 1.20903972,
+        "retrograde": false
+      },
+      "Mars": {
+        "sign": "Aquarius",
+        "degree": 27.963313,
+        "longitude": 327.963313,
+        "speed_longitude": 0.77567278,
+        "retrograde": false
+      },
+      "Jupiter": {
+        "sign": "Aries",
+        "degree": 25.25303,
+        "longitude": 25.25303,
+        "speed_longitude": 0.04076132,
+        "retrograde": false
+      },
+      "Saturn": {
+        "sign": "Taurus",
+        "degree": 10.395639,
+        "longitude": 40.395639,
+        "speed_longitude": -0.01994476,
+        "retrograde": true
+      },
+      "Uranus": {
+        "sign": "Aquarius",
+        "degree": 14.809223,
+        "longitude": 314.809223,
+        "speed_longitude": 0.05034355,
+        "retrograde": false
+      },
+      "Neptune": {
+        "sign": "Aquarius",
+        "degree": 3.192981,
+        "longitude": 303.192981,
+        "speed_longitude": 0.03557012,
+        "retrograde": false
+      },
+      "Pluto": {
+        "sign": "Sagittarius",
+        "degree": 11.454709,
+        "longitude": 251.454709,
+        "speed_longitude": 0.0351529,
+        "retrograde": false
+      },
+      "Rahu": {
+        "sign": "Leo",
+        "degree": 3.952895,
+        "longitude": 123.952895,
+        "speed_longitude": -0.0543822,
+        "retrograde": true
+      },
+      "Ketu": {
+        "sign": "Aquarius",
+        "degree": 3.952895,
+        "longitude": 303.952895,
+        "speed_longitude": -0.0543822,
+        "retrograde": true
+      }
+    },
+    "houses": {
+      "cusps": [
+        {
+          "sign": "Aries",
+          "degree": 24.268193,
+          "longitude": 24.268193
+        },
+        {
+          "sign": "Gemini",
+          "degree": 1.144243,
+          "longitude": 61.144243
+        },
+        {
+          "sign": "Gemini",
+          "degree": 22.021688,
+          "longitude": 82.021688
+        },
+        {
+          "sign": "Cancer",
+          "degree": 9.611088,
+          "longitude": 99.611088
+        },
+        {
+          "sign": "Cancer",
+          "degree": 29.061099,
+          "longitude": 119.061099
+        },
+        {
+          "sign": "Leo",
+          "degree": 27.699396,
+          "longitude": 147.699396
+        },
+        {
+          "sign": "Libra",
+          "degree": 24.268193,
+          "longitude": 204.268193
+        },
+        {
+          "sign": "Sagittarius",
+          "degree": 1.144243,
+          "longitude": 241.144243
+        },
+        {
+          "sign": "Sagittarius",
+          "degree": 22.021688,
+          "longitude": 262.021688
+        },
+        {
+          "sign": "Capricorn",
+          "degree": 9.611088,
+          "longitude": 279.611088
+        },
+        {
+          "sign": "Capricorn",
+          "degree": 29.061099,
+          "longitude": 299.061099
+        },
+        {
+          "sign": "Aquarius",
+          "degree": 27.699396,
+          "longitude": 327.699396
+        }
+      ],
+      "ascendant": {
+        "sign": "Aries",
+        "degree": 24.268193,
+        "longitude": 24.268193
+      },
+      "midheaven": {
+        "sign": "Capricorn",
+        "degree": 9.611088,
+        "longitude": 279.611088
+      }
+    },
+    "warnings": [
+      "Swiss Ephemeris data files were unavailable; Moshier fallback was used. This chart is unverified."
+    ],
+    "metadata": {
+      "julian_day_ut": 2451545.0,
+      "ephemeris_version": "2.10.03",
+      "requested_ephemeris": "Swiss Ephemeris",
+      "actual_ephemeris_flags": {
+        "Sun": 260,
+        "Moon": 260,
+        "Mercury": 260,
+        "Venus": 260,
+        "Mars": 260,
+        "Jupiter": 260,
+        "Saturn": 260,
+        "Uranus": 260,
+        "Neptune": 260,
+        "Pluto": 260,
+        "Rahu": 260
+      },
+      "node_mode": "true",
+      "ayanamsa": null,
+      "ayanamsa_degrees": null,
+      "geocentric": true,
+      "birth_utc": "2000-01-01T12:00:00+00:00",
+      "birth_timezone": "Europe/London",
+      "birth_time_known": true
+    },
+    "aspects": [
+      {
+        "first": "Sun",
+        "second": "Moon",
+        "aspect": "sextile",
+        "orb": 2.9549,
+        "separation": 57.0451
+      },
+      {
+        "first": "Sun",
+        "second": "Saturn",
+        "aspect": "trine",
+        "orb": 0.0267,
+        "separation": 120.0267
+      },
+      {
+        "first": "Moon",
+        "second": "Saturn",
+        "aspect": "opposition",
+        "orb": 2.9281,
+        "separation": 177.0719
+      },
+      {
+        "first": "Moon",
+        "second": "Uranus",
+        "aspect": "square",
+        "orb": 1.4854,
+        "separation": 91.4854
+      },
+      {
+        "first": "Mercury",
+        "second": "Mars",
+        "aspect": "sextile",
+        "orb": 3.926,
+        "separation": 56.074
+      },
+      {
+        "first": "Venus",
+        "second": "Mars",
+        "aspect": "square",
+        "orb": 3.6025,
+        "separation": 86.3975
+      },
+      {
+        "first": "Venus",
+        "second": "Neptune",
+        "aspect": "sextile",
+        "orb": 1.6272,
+        "separation": 61.6272
+      },
+      {
+        "first": "Mars",
+        "second": "Jupiter",
+        "aspect": "sextile",
+        "orb": 2.7103,
+        "separation": 57.2897
+      },
+      {
+        "first": "Saturn",
+        "second": "Uranus",
+        "aspect": "square",
+        "orb": 4.4136,
+        "separation": 85.5864
+      },
+      {
+        "first": "Uranus",
+        "second": "Pluto",
+        "aspect": "sextile",
+        "orb": 3.3545,
+        "separation": 63.3545
+      }
+    ],
+    "elements": {
+      "fire": 3,
+      "earth": 3,
+      "air": 3,
+      "water": 1
+    }
+  },
+  "vedic": {
+    "zodiac": "sidereal",
+    "house_system": "whole_sign",
+    "positions": {
+      "Sun": {
+        "sign": "Sagittarius",
+        "degree": 16.515697,
+        "longitude": 256.515697,
+        "speed_longitude": 1.01939188,
+        "retrograde": false
+      },
+      "Moon": {
+        "sign": "Libra",
+        "degree": 19.470553,
+        "longitude": 199.470553,
+        "speed_longitude": 12.02114288,
+        "retrograde": false
+      },
+      "Mercury": {
+        "sign": "Sagittarius",
+        "degree": 8.036053,
+        "longitude": 248.036053,
+        "speed_longitude": 1.55621388,
+        "retrograde": false
+      },
+      "Venus": {
+        "sign": "Scorpio",
+        "degree": 7.712576,
+        "longitude": 217.712576,
+        "speed_longitude": 1.2089996,
+        "retrograde": false
+      },
+      "Mars": {
+        "sign": "Aquarius",
+        "degree": 4.110091,
+        "longitude": 304.110091,
+        "speed_longitude": 0.77563265,
+        "retrograde": false
+      },
+      "Jupiter": {
+        "sign": "Aries",
+        "degree": 1.399808,
+        "longitude": 1.399808,
+        "speed_longitude": 0.04072121,
+        "retrograde": false
+      },
+      "Saturn": {
+        "sign": "Aries",
+        "degree": 16.542416,
+        "longitude": 16.542416,
+        "speed_longitude": -0.01998479,
+        "retrograde": true
+      },
+      "Rahu": {
+        "sign": "Cancer",
+        "degree": 10.099673,
+        "longitude": 100.099673,
+        "speed_longitude": -0.05442242,
+        "retrograde": true
+      },
+      "Ketu": {
+        "sign": "Capricorn",
+        "degree": 10.099673,
+        "longitude": 280.099673,
+        "speed_longitude": -0.05442242,
+        "retrograde": true
+      }
+    },
+    "houses": {
+      "cusps": [
+        {
+          "sign": "Aries",
+          "degree": 0.0,
+          "longitude": 0.0
+        },
+        {
+          "sign": "Taurus",
+          "degree": 0.0,
+          "longitude": 30.0
+        },
+        {
+          "sign": "Gemini",
+          "degree": 0.0,
+          "longitude": 60.0
+        },
+        {
+          "sign": "Cancer",
+          "degree": 0.0,
+          "longitude": 90.0
+        },
+        {
+          "sign": "Leo",
+          "degree": 0.0,
+          "longitude": 120.0
+        },
+        {
+          "sign": "Virgo",
+          "degree": 0.0,
+          "longitude": 150.0
+        },
+        {
+          "sign": "Libra",
+          "degree": 0.0,
+          "longitude": 180.0
+        },
+        {
+          "sign": "Scorpio",
+          "degree": 0.0,
+          "longitude": 210.0
+        },
+        {
+          "sign": "Sagittarius",
+          "degree": 0.0,
+          "longitude": 240.0
+        },
+        {
+          "sign": "Capricorn",
+          "degree": 0.0,
+          "longitude": 270.0
+        },
+        {
+          "sign": "Aquarius",
+          "degree": 0.0,
+          "longitude": 300.0
+        },
+        {
+          "sign": "Pisces",
+          "degree": 0.0,
+          "longitude": 330.0
+        }
+      ],
+      "ascendant": {
+        "sign": "Aries",
+        "degree": 0.414971,
+        "longitude": 0.414971
+      },
+      "midheaven": {
+        "sign": "Sagittarius",
+        "degree": 15.757865,
+        "longitude": 255.757865
+      }
+    },
+    "warnings": [
+      "Swiss Ephemeris data files were unavailable; Moshier fallback was used. This chart is unverified."
+    ],
+    "metadata": {
+      "julian_day_ut": 2451545.0,
+      "ephemeris_version": "2.10.03",
+      "requested_ephemeris": "Swiss Ephemeris",
+      "actual_ephemeris_flags": {
+        "Sun": 65860,
+        "Moon": 65860,
+        "Mercury": 65860,
+        "Venus": 65860,
+        "Mars": 65860,
+        "Jupiter": 65860,
+        "Saturn": 65860,
+        "Rahu": 65860
+      },
+      "node_mode": "true",
+      "ayanamsa": "lahiri",
+      "ayanamsa_degrees": 23.85709235,
+      "geocentric": true,
+      "birth_utc": "2000-01-01T12:00:00+00:00",
+      "birth_timezone": "Europe/London",
+      "birth_time_known": true
+    },
+    "moon_nakshatra": {
+      "name": "Swati",
+      "index": 14,
+      "pada": 4,
+      "fraction_elapsed": 0.9602914749999982,
+      "ruler": "Rahu"
+    },
+    "mahadashas": [
+      {
+        "ruler": "Rahu",
+        "start_utc": "1982-09-19T01:31:43.473721+00:00",
+        "end_utc": "2000-09-18T13:31:43.473721+00:00",
+        "current_at_birth": true
+      },
+      {
+        "ruler": "Jupiter",
+        "start_utc": "2000-09-18T13:31:43.473721+00:00",
+        "end_utc": "2016-09-18T13:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Saturn",
+        "start_utc": "2016-09-18T13:31:43.473721+00:00",
+        "end_utc": "2035-09-19T07:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Mercury",
+        "start_utc": "2035-09-19T07:31:43.473721+00:00",
+        "end_utc": "2052-09-18T13:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Ketu",
+        "start_utc": "2052-09-18T13:31:43.473721+00:00",
+        "end_utc": "2059-09-19T07:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Venus",
+        "start_utc": "2059-09-19T07:31:43.473721+00:00",
+        "end_utc": "2079-09-19T07:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Sun",
+        "start_utc": "2079-09-19T07:31:43.473721+00:00",
+        "end_utc": "2085-09-18T19:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Moon",
+        "start_utc": "2085-09-18T19:31:43.473721+00:00",
+        "end_utc": "2095-09-19T07:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Mars",
+        "start_utc": "2095-09-19T07:31:43.473721+00:00",
+        "end_utc": "2102-09-20T01:31:43.473721+00:00",
+        "current_at_birth": false
+      },
+      {
+        "ruler": "Rahu",
+        "start_utc": "2102-09-20T01:31:43.473721+00:00",
+        "end_utc": "2120-09-19T13:31:43.473721+00:00",
+        "current_at_birth": false
+      }
+    ],
+    "whole_sign_placements": {
+      "Sun": 9,
+      "Moon": 7,
+      "Mercury": 9,
+      "Venus": 8,
+      "Mars": 11,
+      "Jupiter": 1,
+      "Saturn": 1,
+      "Rahu": 4,
+      "Ketu": 10
+    },
+    "divisional": {
+      "D9": {
+        "division": 9,
+        "positions": {
+          "Sun": {
+            "sign": "Leo",
+            "sign_index": 4,
+            "segment": 5
+          },
+          "Moon": {
+            "sign": "Pisces",
+            "sign_index": 11,
+            "segment": 6
+          },
+          "Mercury": {
+            "sign": "Gemini",
+            "sign_index": 2,
+            "segment": 3
+          },
+          "Venus": {
+            "sign": "Virgo",
+            "sign_index": 5,
+            "segment": 3
+          },
+          "Mars": {
+            "sign": "Scorpio",
+            "sign_index": 7,
+            "segment": 2
+          },
+          "Jupiter": {
+            "sign": "Aries",
+            "sign_index": 0,
+            "segment": 1
+          },
+          "Saturn": {
+            "sign": "Leo",
+            "sign_index": 4,
+            "segment": 5
+          },
+          "Rahu": {
+            "sign": "Libra",
+            "sign_index": 6,
+            "segment": 4
+          },
+          "Ketu": {
+            "sign": "Aries",
+            "sign_index": 0,
+            "segment": 4
+          }
+        },
+        "ascendant": {
+          "sign": "Aries",
+          "sign_index": 0,
+          "segment": 1
+        },
+        "mapping": "Parashari movable/fixed/dual D9",
+        "birth_time_warning": "Divisional ascendants are sensitive to exact birth time."
+      },
+      "D10": {
+        "division": 10,
+        "positions": {
+          "Sun": {
+            "sign": "Taurus",
+            "sign_index": 1,
+            "segment": 6
+          },
+          "Moon": {
+            "sign": "Aries",
+            "sign_index": 0,
+            "segment": 7
+          },
+          "Mercury": {
+            "sign": "Aquarius",
+            "sign_index": 10,
+            "segment": 3
+          },
+          "Venus": {
+            "sign": "Virgo",
+            "sign_index": 5,
+            "segment": 3
+          },
+          "Mars": {
+            "sign": "Pisces",
+            "sign_index": 11,
+            "segment": 2
+          },
+          "Jupiter": {
+            "sign": "Aries",
+            "sign_index": 0,
+            "segment": 1
+          },
+          "Saturn": {
+            "sign": "Virgo",
+            "sign_index": 5,
+            "segment": 6
+          },
+          "Rahu": {
+            "sign": "Gemini",
+            "sign_index": 2,
+            "segment": 4
+          },
+          "Ketu": {
+            "sign": "Sagittarius",
+            "sign_index": 8,
+            "segment": 4
+          }
+        },
+        "ascendant": {
+          "sign": "Aries",
+          "sign_index": 0,
+          "segment": 1
+        },
+        "mapping": "Parashari odd/even D10",
+        "birth_time_warning": "Divisional ascendants are sensitive to exact birth time."
+      }
+    },
+    "antardashas": [
+      [
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Rahu",
+          "start_utc": "1982-09-19T01:31:43.473721+00:00",
+          "end_utc": "1985-06-01T05:43:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Jupiter",
+          "start_utc": "1985-06-01T05:43:43.473721+00:00",
+          "end_utc": "1987-10-25T20:07:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Saturn",
+          "start_utc": "1987-10-25T20:07:43.473721+00:00",
+          "end_utc": "1990-08-31T19:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Mercury",
+          "start_utc": "1990-08-31T19:13:43.473721+00:00",
+          "end_utc": "1993-03-20T04:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Ketu",
+          "start_utc": "1993-03-20T04:31:43.473721+00:00",
+          "end_utc": "1994-04-07T16:49:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Venus",
+          "start_utc": "1994-04-07T16:49:43.473721+00:00",
+          "end_utc": "1997-04-07T10:49:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Sun",
+          "start_utc": "1997-04-07T10:49:43.473721+00:00",
+          "end_utc": "1998-03-02T04:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Moon",
+          "start_utc": "1998-03-02T04:13:43.473721+00:00",
+          "end_utc": "1999-09-01T01:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Mars",
+          "start_utc": "1999-09-01T01:13:43.473721+00:00",
+          "end_utc": "2000-09-18T13:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Jupiter",
+          "start_utc": "2000-09-18T13:31:43.473721+00:00",
+          "end_utc": "2002-11-06T18:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Saturn",
+          "start_utc": "2002-11-06T18:19:43.473721+00:00",
+          "end_utc": "2005-05-20T01:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Mercury",
+          "start_utc": "2005-05-20T01:31:43.473721+00:00",
+          "end_utc": "2007-08-25T23:07:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Ketu",
+          "start_utc": "2007-08-25T23:07:43.473721+00:00",
+          "end_utc": "2008-07-31T20:43:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Venus",
+          "start_utc": "2008-07-31T20:43:43.473721+00:00",
+          "end_utc": "2011-04-01T20:43:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Sun",
+          "start_utc": "2011-04-01T20:43:43.473721+00:00",
+          "end_utc": "2012-01-19T01:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Moon",
+          "start_utc": "2012-01-19T01:31:43.473721+00:00",
+          "end_utc": "2013-05-20T01:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Mars",
+          "start_utc": "2013-05-20T01:31:43.473721+00:00",
+          "end_utc": "2014-04-25T23:07:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Jupiter",
+          "antardasha": "Rahu",
+          "start_utc": "2014-04-25T23:07:43.473721+00:00",
+          "end_utc": "2016-09-18T13:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Saturn",
+          "start_utc": "2016-09-18T13:31:43.473721+00:00",
+          "end_utc": "2019-09-22T08:34:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Mercury",
+          "start_utc": "2019-09-22T08:34:43.473721+00:00",
+          "end_utc": "2022-06-01T11:43:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Ketu",
+          "start_utc": "2022-06-01T11:43:43.473721+00:00",
+          "end_utc": "2023-07-11T07:22:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Venus",
+          "start_utc": "2023-07-11T07:22:43.473721+00:00",
+          "end_utc": "2026-09-09T22:22:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Sun",
+          "start_utc": "2026-09-09T22:22:43.473721+00:00",
+          "end_utc": "2027-08-22T22:04:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Moon",
+          "start_utc": "2027-08-22T22:04:43.473721+00:00",
+          "end_utc": "2029-03-23T05:34:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Mars",
+          "start_utc": "2029-03-23T05:34:43.473721+00:00",
+          "end_utc": "2030-05-02T01:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Rahu",
+          "start_utc": "2030-05-02T01:13:43.473721+00:00",
+          "end_utc": "2033-03-08T00:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Saturn",
+          "antardasha": "Jupiter",
+          "start_utc": "2033-03-08T00:19:43.473721+00:00",
+          "end_utc": "2035-09-19T07:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Mercury",
+          "start_utc": "2035-09-19T07:31:43.473721+00:00",
+          "end_utc": "2038-02-14T22:58:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Ketu",
+          "start_utc": "2038-02-14T22:58:43.473721+00:00",
+          "end_utc": "2039-02-12T03:55:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Venus",
+          "start_utc": "2039-02-12T03:55:43.473721+00:00",
+          "end_utc": "2041-12-13T00:55:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Sun",
+          "start_utc": "2041-12-13T00:55:43.473721+00:00",
+          "end_utc": "2042-10-19T12:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Moon",
+          "start_utc": "2042-10-19T12:01:43.473721+00:00",
+          "end_utc": "2044-03-19T22:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Mars",
+          "start_utc": "2044-03-19T22:31:43.473721+00:00",
+          "end_utc": "2045-03-17T03:28:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Rahu",
+          "start_utc": "2045-03-17T03:28:43.473721+00:00",
+          "end_utc": "2047-10-04T12:46:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Jupiter",
+          "start_utc": "2047-10-04T12:46:43.473721+00:00",
+          "end_utc": "2050-01-09T10:22:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mercury",
+          "antardasha": "Saturn",
+          "start_utc": "2050-01-09T10:22:43.473721+00:00",
+          "end_utc": "2052-09-18T13:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Ketu",
+          "start_utc": "2052-09-18T13:31:43.473721+00:00",
+          "end_utc": "2053-02-14T16:58:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Venus",
+          "start_utc": "2053-02-14T16:58:43.473721+00:00",
+          "end_utc": "2054-04-16T19:58:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Sun",
+          "start_utc": "2054-04-16T19:58:43.473721+00:00",
+          "end_utc": "2054-08-22T16:04:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Moon",
+          "start_utc": "2054-08-22T16:04:43.473721+00:00",
+          "end_utc": "2055-03-23T17:34:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Mars",
+          "start_utc": "2055-03-23T17:34:43.473721+00:00",
+          "end_utc": "2055-08-19T21:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Rahu",
+          "start_utc": "2055-08-19T21:01:43.473721+00:00",
+          "end_utc": "2056-09-06T09:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Jupiter",
+          "start_utc": "2056-09-06T09:19:43.473721+00:00",
+          "end_utc": "2057-08-13T06:55:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Saturn",
+          "start_utc": "2057-08-13T06:55:43.473721+00:00",
+          "end_utc": "2058-09-22T02:34:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Ketu",
+          "antardasha": "Mercury",
+          "start_utc": "2058-09-22T02:34:43.473721+00:00",
+          "end_utc": "2059-09-19T07:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Venus",
+          "start_utc": "2059-09-19T07:31:43.473721+00:00",
+          "end_utc": "2063-01-18T19:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Sun",
+          "start_utc": "2063-01-18T19:31:43.473721+00:00",
+          "end_utc": "2064-01-19T01:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Moon",
+          "start_utc": "2064-01-19T01:31:43.473721+00:00",
+          "end_utc": "2065-09-18T19:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Mars",
+          "start_utc": "2065-09-18T19:31:43.473721+00:00",
+          "end_utc": "2066-11-18T22:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Rahu",
+          "start_utc": "2066-11-18T22:31:43.473721+00:00",
+          "end_utc": "2069-11-18T16:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Jupiter",
+          "start_utc": "2069-11-18T16:31:43.473721+00:00",
+          "end_utc": "2072-07-19T16:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Saturn",
+          "start_utc": "2072-07-19T16:31:43.473721+00:00",
+          "end_utc": "2075-09-19T07:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Mercury",
+          "start_utc": "2075-09-19T07:31:43.473721+00:00",
+          "end_utc": "2078-07-20T04:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Venus",
+          "antardasha": "Ketu",
+          "start_utc": "2078-07-20T04:31:43.473721+00:00",
+          "end_utc": "2079-09-19T07:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Sun",
+          "start_utc": "2079-09-19T07:31:43.473721+00:00",
+          "end_utc": "2080-01-06T21:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Moon",
+          "start_utc": "2080-01-06T21:19:43.473721+00:00",
+          "end_utc": "2080-07-07T12:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Mars",
+          "start_utc": "2080-07-07T12:19:43.473721+00:00",
+          "end_utc": "2080-11-12T08:25:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Rahu",
+          "start_utc": "2080-11-12T08:25:43.473721+00:00",
+          "end_utc": "2081-10-07T01:49:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Jupiter",
+          "start_utc": "2081-10-07T01:49:43.473721+00:00",
+          "end_utc": "2082-07-26T06:37:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Saturn",
+          "start_utc": "2082-07-26T06:37:43.473721+00:00",
+          "end_utc": "2083-07-08T06:19:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Mercury",
+          "start_utc": "2083-07-08T06:19:43.473721+00:00",
+          "end_utc": "2084-05-13T17:25:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Ketu",
+          "start_utc": "2084-05-13T17:25:43.473721+00:00",
+          "end_utc": "2084-09-18T13:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Sun",
+          "antardasha": "Venus",
+          "start_utc": "2084-09-18T13:31:43.473721+00:00",
+          "end_utc": "2085-09-18T19:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Moon",
+          "start_utc": "2085-09-18T19:31:43.473721+00:00",
+          "end_utc": "2086-07-20T04:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Mars",
+          "start_utc": "2086-07-20T04:31:43.473721+00:00",
+          "end_utc": "2087-02-18T06:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Rahu",
+          "start_utc": "2087-02-18T06:01:43.473721+00:00",
+          "end_utc": "2088-08-19T03:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Jupiter",
+          "start_utc": "2088-08-19T03:01:43.473721+00:00",
+          "end_utc": "2089-12-19T03:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Saturn",
+          "start_utc": "2089-12-19T03:01:43.473721+00:00",
+          "end_utc": "2091-07-20T10:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Mercury",
+          "start_utc": "2091-07-20T10:31:43.473721+00:00",
+          "end_utc": "2092-12-18T21:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Ketu",
+          "start_utc": "2092-12-18T21:01:43.473721+00:00",
+          "end_utc": "2093-07-19T22:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Venus",
+          "start_utc": "2093-07-19T22:31:43.473721+00:00",
+          "end_utc": "2095-03-20T16:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Moon",
+          "antardasha": "Sun",
+          "start_utc": "2095-03-20T16:31:43.473721+00:00",
+          "end_utc": "2095-09-19T07:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Mars",
+          "start_utc": "2095-09-19T07:31:43.473721+00:00",
+          "end_utc": "2096-02-15T10:58:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Rahu",
+          "start_utc": "2096-02-15T10:58:43.473721+00:00",
+          "end_utc": "2097-03-04T23:16:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Jupiter",
+          "start_utc": "2097-03-04T23:16:43.473721+00:00",
+          "end_utc": "2098-02-08T20:52:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Saturn",
+          "start_utc": "2098-02-08T20:52:43.473721+00:00",
+          "end_utc": "2099-03-20T16:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Mercury",
+          "start_utc": "2099-03-20T16:31:43.473721+00:00",
+          "end_utc": "2100-03-17T21:28:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Ketu",
+          "start_utc": "2100-03-17T21:28:43.473721+00:00",
+          "end_utc": "2100-08-14T00:55:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Venus",
+          "start_utc": "2100-08-14T00:55:43.473721+00:00",
+          "end_utc": "2101-10-14T03:55:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Sun",
+          "start_utc": "2101-10-14T03:55:43.473721+00:00",
+          "end_utc": "2102-02-19T00:01:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Mars",
+          "antardasha": "Moon",
+          "start_utc": "2102-02-19T00:01:43.473721+00:00",
+          "end_utc": "2102-09-20T01:31:43.473721+00:00"
+        }
+      ],
+      [
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Rahu",
+          "start_utc": "2102-09-20T01:31:43.473721+00:00",
+          "end_utc": "2105-06-02T05:43:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Jupiter",
+          "start_utc": "2105-06-02T05:43:43.473721+00:00",
+          "end_utc": "2107-10-26T20:07:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Saturn",
+          "start_utc": "2107-10-26T20:07:43.473721+00:00",
+          "end_utc": "2110-09-01T19:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Mercury",
+          "start_utc": "2110-09-01T19:13:43.473721+00:00",
+          "end_utc": "2113-03-21T04:31:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Ketu",
+          "start_utc": "2113-03-21T04:31:43.473721+00:00",
+          "end_utc": "2114-04-08T16:49:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Venus",
+          "start_utc": "2114-04-08T16:49:43.473721+00:00",
+          "end_utc": "2117-04-08T10:49:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Sun",
+          "start_utc": "2117-04-08T10:49:43.473721+00:00",
+          "end_utc": "2118-03-03T04:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Moon",
+          "start_utc": "2118-03-03T04:13:43.473721+00:00",
+          "end_utc": "2119-09-02T01:13:43.473721+00:00"
+        },
+        {
+          "mahadasha": "Rahu",
+          "antardasha": "Mars",
+          "start_utc": "2119-09-02T01:13:43.473721+00:00",
+          "end_utc": "2120-09-19T13:31:43.473721+00:00"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+**/node_modules/
+**/.expo/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/*.pyc
+**/.env
+**/.env.*
+!**/.env.example
+**/npm-debug.log*

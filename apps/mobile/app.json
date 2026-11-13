@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "ASTRA",
+    "slug": "astra",
+    "scheme": "astra",
+    "version": "0.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#09090B",
+    "plugins": ["expo-router"],
+    "experiments": {"typedRoutes": true}
+  }
+}
