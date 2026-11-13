@@ -27,18 +27,23 @@ async def search_places(query: str) -> list[dict]:
             await asyncio.sleep(delay)
         _last_request = time.monotonic()
         base = os.getenv("GEOCODING_URL", "https://nominatim.openstreetmap.org/search")
+        if os.getenv("ASTRA_ENV") == "production" and "nominatim.openstreetmap.org" in base:
+            raise HTTPException(503, "Configure a hosted Nominatim-compatible geocoding endpoint for production")
         agent = os.getenv("GEOCODING_USER_AGENT")
         if not agent:
             raise HTTPException(503, "Set GEOCODING_USER_AGENT with an app contact before using birthplace search")
         try:
             async with httpx.AsyncClient(timeout=10) as client:
-                response = await client.get(base, params={"q": name, "format": "jsonv2", "limit": 5, "addressdetails": 1}, headers={"User-Agent": agent})
+                headers = {"User-Agent": agent}
+                if api_key := os.getenv("GEOCODING_API_KEY"):
+                    headers["Authorization"] = f"Bearer {api_key}"
+                response = await client.get(base, params={"q": name, "format": "jsonv2", "limit": 5, "addressdetails": 1}, headers=headers)
                 response.raise_for_status()
         except httpx.HTTPError as exc:
             raise HTTPException(503, "Birthplace lookup unavailable") from exc
         found = []
         for item in response.json():
             latitude, longitude = float(item["lat"]), float(item["lon"])
-            found.append({"label": item["display_name"], "latitude": latitude, "longitude": longitude, "timezone": _zones.timezone_at(lat=latitude, lng=longitude), "source": "OpenStreetMap Nominatim"})
+            found.append({"label": item["display_name"], "latitude": latitude, "longitude": longitude, "timezone": _zones.timezone_at(lat=latitude, lng=longitude), "source": "OpenStreetMap Nominatim data"})
         _cache[key] = (time.monotonic(), found)
         return found

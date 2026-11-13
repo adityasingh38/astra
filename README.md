@@ -1,14 +1,14 @@
 # ASTRA
 
-An early, calculation-first Expo + FastAPI implementation of one birth profile viewed through Western and Vedic lenses.
+An AGPL-3.0-or-later, calculation-first Expo + FastAPI implementation of one birth profile viewed through Western and Vedic lenses.
 
 ## Status
 
-Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; server-side Western and Vedic natal charts; D9/D10 sign mapping, whole-sign placements, and Mahadasha/Antardasha periods; and fact-cited AI readings through the OpenAI Responses API. The Expo app displays saved profiles, both chart lenses, deeper Vedic data, and reading evidence.
+Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; and fact-cited AI readings through the OpenAI Responses API.
 
-Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only; configure an appropriate provider before scaling. A birth profile is persisted in Supabase, while chart results are recalculated when opened. The `chart_snapshots` table is prepared but not yet populated.
+Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only. A birth profile is persisted in Supabase; chart results are recalculated when opened and saved once per profile fingerprint and calculation version. Today shows a 12:00 UTC transit snapshot, not an all-day forecast. Connections shows calculated aspects and Vedic placements without a compatibility score.
 
-Not yet implemented: independently verified golden-chart fixtures, D2/D3 and other divisions, nested dasha levels beyond Antardasha, compatibility, transit readings, journal, subscriptions, production rate limits, and deployment. Supabase and OpenAI integrations require your project credentials and have not been exercised against live accounts here. This is **not** a complete or verified commercial astrology app.
+Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/test_engine.py`; see `docs/VERIFICATION.md` for the query and limits. Still needed before public release: live Supabase/OpenAI integration tests, multi-instance rate limiting, device accessibility review, production geocoder and deployment configuration, broader chart references, and interpretation evaluation. Your credentials have not been added, so live service paths remain unverified.
 
 ## Layout
 
@@ -19,7 +19,7 @@ Not yet implemented: independently verified golden-chart fixtures, D2/D3 and oth
 
 ## Local setup
 
-Requires Python 3.11+, Node 20+, npm, a Supabase project, and an OpenAI API key for AI readings. Run `db/001_initial.sql` in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
+Requires Python 3.11+, Node 20+, npm, a Supabase project, and an OpenAI API key for AI readings. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
 
 ```sh
 python -m venv .venv
@@ -28,12 +28,12 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 # Set Supabase credentials, a contact-bearing GEOCODING_USER_AGENT,
 # and OPENAI_API_KEY (server side only).
-# Set SWEPH_EPHE_PATH to pinned Swiss Ephemeris data files.
+# Bundled, SHA-256-checked Swiss Ephemeris files cover 1800–2399.
 uvicorn app.main:app --env-file .env --reload
 python -m pytest
 ```
 
-On Windows the dependency file installs `pysweph`, a maintained binding with the same `swisseph` import name, because current `pyswisseph` source distributions require a local C++ compiler. The calculation adapter accepts either binding's `calc_ut` response shape. Pin the binding and ephemeris data for production.
+On Windows the dependency file installs `pysweph`, which has the same `swisseph` import name; Linux uses `pyswisseph`. The bundled ephemeris data hashes are checked before calculation. The API rejects any fallback from Swiss Ephemeris files.
 
 From `apps/mobile`:
 
@@ -51,7 +51,11 @@ The welcome starfield and chart orbit in `apps/mobile/src/sky-components.tsx` ar
 
 The API listens on localhost by default; use `uvicorn app.main:app --env-file .env --host 0.0.0.0 --reload` for a device on your LAN. Do not put the OpenAI key or a Supabase service-role key in the mobile app. Profile requests use the signed-in user's access token so Supabase row level security applies.
 
-AI readings reject charts that fall back to Moshier calculations. They also reject model sentences that introduce chart labels rather than citing a calculated fact card. This is a narrow guard, not a substitute for independent ephemeris fixtures and adversarial reading tests.
+AI readings reject model sentences that introduce chart labels rather than citing a calculated fact card. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
+
+## License and source
+
+ASTRA source is licensed under [AGPL-3.0-or-later](LICENSE). Swiss Ephemeris is dual licensed; this project follows its AGPL path. The bundled `sepl_18.se1` and `semo_18.se1` files came from the [Astrodienst Swiss Ephemeris repository](https://github.com/aloistr/swisseph/tree/master/ephe); hashes and reference calculations are recorded in `docs/VERIFICATION.md`. Keep the complete corresponding source publicly available to users before operating a public network service. This GitHub repository is currently private while the app is under development.
 
 ## Example API request
 

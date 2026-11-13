@@ -18,12 +18,14 @@ export type Lens = {
   antardashas?: { mahadasha: string; antardasha: string; start_utc: string; end_utc: string }[][] | null;
 };
 export type Chart = { birth_profile: { name: string; place_label: string; birth_date: string; time_known: boolean }; western: Lens; vedic: Lens };
-type State = { chart: Chart | null; setChart: (chart: Chart | null) => void; profileId: string | null; setProfileId: (id: string | null) => void; session: Session | null; loading: boolean; refresh: () => Promise<void> };
+export type SavedProfile = { id: string; preferred_name: string; birth_date: string; birth_time: string | null; time_known: boolean; timezone_id: string; fold: 0 | 1 | null; latitude: number; longitude: number; place_label: string; western_houses: string; ayanamsa: string; node_mode: string };
+type State = { chart: Chart | null; setChart: (chart: Chart | null) => void; profileId: string | null; setProfileId: (id: string | null) => void; profiles: SavedProfile[]; selectProfile: (id: string) => Promise<void>; session: Session | null; loading: boolean; refresh: (preferredId?: string) => Promise<void> };
 const ChartContext = createContext<State | null>(null);
 export function ChartProvider({ children }: { children: React.ReactNode }) {
-  const [chart, setChart] = useState<Chart | null>(null); const [profileId, setProfileId] = useState<string | null>(null); const [session, setSession] = useState<Session | null>(null); const [loading, setLoading] = useState(true);
-  async function refresh() { if (!configured) { setLoading(false); return; } const { data } = await supabase.auth.getSession(); setSession(data.session); if (data.session) { try { const profiles = await apiFetch<{ id: string }[]>('/birth-profiles'); if (profiles.length) { setProfileId(profiles[0].id); setChart(await apiFetch<Chart>(`/birth-profiles/${profiles[0].id}/chart`)); } } catch { setChart(null); } } else { setChart(null); setProfileId(null); } setLoading(false); }
+  const [chart, setChart] = useState<Chart | null>(null); const [profileId, setProfileId] = useState<string | null>(null); const [profiles, setProfiles] = useState<SavedProfile[]>([]); const [session, setSession] = useState<Session | null>(null); const [loading, setLoading] = useState(true);
+  async function selectProfile(id: string) { const next = await apiFetch<Chart>(`/birth-profiles/${id}/chart`); setProfileId(id); setChart(next); }
+  async function refresh(preferredId?: string) { if (!configured) { setLoading(false); return; } const { data } = await supabase.auth.getSession(); setSession(data.session); if (data.session) { try { const rows = await apiFetch<SavedProfile[]>('/birth-profiles'); setProfiles(rows); if (rows.length) await selectProfile(rows.find(row => row.id === (preferredId ?? profileId))?.id ?? rows[0].id); else { setChart(null); setProfileId(null); } } catch { setChart(null); setProfileId(null); } } else { setChart(null); setProfileId(null); setProfiles([]); } setLoading(false); }
   useEffect(() => { void refresh(); const { data } = supabase.auth.onAuthStateChange((_event, next) => { setSession(next); if (!next) { setChart(null); setProfileId(null); } }); return () => data.subscription.unsubscribe(); }, []);
-  return <ChartContext.Provider value={{ chart, setChart, profileId, setProfileId, session, loading, refresh }}>{children}</ChartContext.Provider>;
+  return <ChartContext.Provider value={{ chart, setChart, profileId, setProfileId, profiles, selectProfile, session, loading, refresh }}>{children}</ChartContext.Provider>;
 }
 export function useChart() { const state = useContext(ChartContext); if (!state) throw new Error('ChartProvider missing'); return state; }

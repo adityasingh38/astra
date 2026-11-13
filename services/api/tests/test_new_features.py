@@ -52,8 +52,7 @@ def test_unknown_time_excludes_moon_from_reading_facts():
 def test_ai_reading_rejects_ephemeris_fallback():
     from fastapi import HTTPException
     chart = sample_chart()
-    if not any("fallback" in warning.lower() for warning in chart["western"]["warnings"]):
-        pytest.skip("Pinned ephemeris data is available")
+    chart["western"]["warnings"].append("Moshier fallback was used")
     with pytest.raises(HTTPException) as error:
         asyncio.run(generate_reading(chart, ReadingRequest(lens="western", topic="identity")))
     assert error.value.status_code == 422

@@ -59,6 +59,17 @@ def test_dual_chart_and_unknown_time():
     assert result["vedic"]["mahadashas"] is None
 
 
+def test_geocentric_positions_against_jpl_horizons():
+    # JPL Horizons observer=500@399, quantities=31, ecliptic of date,
+    # 2002-06-21 14:50 UT. See docs/VERIFICATION.md for the full query.
+    instant, warnings = resolve_utc(profile())
+    chart = calculate(profile(), instant, warnings)
+    reference = {"Sun": 90.0566950, "Moon": 227.7886935, "Mars": 105.7776516}
+    for body, longitude in reference.items():
+        assert abs(chart["western"]["positions"][body]["longitude"] - longitude) < 0.001
+        assert chart["western"]["metadata"]["actual_ephemeris_flags"][body] & 2
+
+
 def test_houses_nodes_and_ayanamsa_settings():
     known = profile(western_houses="whole_sign", ayanamsa="raman", node_mode="mean")
     instant, warnings = resolve_utc(known)

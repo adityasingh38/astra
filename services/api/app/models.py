@@ -20,6 +20,8 @@ class BirthProfile(BaseModel):
 
     @model_validator(mode="after")
     def validate_time(self):
+        if not 1800 <= self.birth_date.year <= 2399:
+            raise ValueError("Bundled ephemeris supports birth years 1800–2399")
         if self.time_known and self.birth_time is None:
             raise ValueError("birth_time is required when time_known is true")
         if not self.time_known and self.birth_time is not None:

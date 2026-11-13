@@ -12,7 +12,7 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 
 ## Calculation conventions in this milestone
 
-- Geocentric ecliptic longitudes and speeds from Swiss Ephemeris `calc_ut` with `FLG_SWIEPH | FLG_SPEED`; the library may fall back to Moshier without ephemeris files, so the returned flag and engine version are recorded. Production should ship pinned ephemeris files and reject fallback.
+- Geocentric ecliptic longitudes and speeds from Swiss Ephemeris `calc_ut` with `FLG_SWIEPH | FLG_SPEED`; bundled data files are SHA-256 checked, and calculations reject fallback. The bundled files cover 1800–2399.
 - Western: tropical, Placidus by default, true lunar node by default. Whole Sign and Equal alternatives. Placidus polar failure returns unavailable houses and an explanatory warning.
 - Vedic: sidereal `FLG_SIDEREAL`, Lahiri by default; Raman and Krishnamurti selectable. Whole Sign houses. Nine traditional grahas are shown. Sidereal houses use the same sidereal ascendant reference as the Vedic positions.
 - Rahu is true node by default; Ketu is exactly 180° opposite. Mean node is configurable.
@@ -22,25 +22,28 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 - D9 maps 3°20′ segments: movable signs start with themselves, fixed signs at the ninth, and dual signs at the fifth. D10 maps 3° segments: odd signs start with themselves and even signs at the ninth. The API reports the mapping and suppresses divisional ascendants without a birth time.
 - Antardashas subdivide each Mahadasha in the standard planetary order, proportional to each ruler's years out of 120, using the same 365.25-day convention.
 - AI readings receive a small allowlist of fact IDs from one lens and topic. The model returns structured sentences citing those IDs; validation rejects unknown citations or chart labels in narrative text. Exact placements are rendered from calculation facts, not model prose.
-- AI readings are unavailable if the engine reports Moshier fallback; `SWEPH_EPHE_PATH` must point to pinned Swiss Ephemeris data files. Moon-dependent reading facts are withheld when birth time is unknown.
+- AI readings are unavailable if the engine cannot use the pinned data. Moon-dependent reading facts are withheld when birth time is unknown.
+- Today samples current planetary positions at 12:00 UTC and reports major aspects within 2° of natal planets; it is a snapshot rather than a forecast for the whole day.
+- Connections compares major Western aspects within 5° and shows Vedic Moon nakshatra/sign and D9 Venus sign. There is no compatibility score; Moon comparisons are withheld if either birth time is unknown.
 
 ## Risks and release gates
 
-1. **License:** Astrodienst states Swiss Ephemeris is dual-licensed under AGPL or a Professional License. A choice is required before distribution or public service activation. Source: https://www.astro.com/swisseph/swisseph.htm
-2. **Ephemeris accuracy:** the package alone may use fallback calculations. Pin data files, assert the returned ephemeris flag, and compare with independently sourced charts before calling results verified.
+1. **License:** ASTRA is AGPL-3.0-or-later, following the Swiss Ephemeris AGPL path. Make complete source available before public network operation. Source: https://www.astro.com/swisseph/swisseph.htm
+2. **Ephemeris accuracy:** pinned data, returned flags and one independent JPL reference are tested. Broader references for houses, sidereal conventions and date boundaries remain.
 3. **Timezones:** historical IANA rules can change with tzdata updates. Persist timezone ID, input local time, fold choice, UTC result, and tzdata version. Ambiguous times require an explicit fold; nonexistent times are rejected.
 4. **Vedic conventions:** ayanamsa, node mode, divisional mapping, dasha year and Koota rules vary. Store each selection and cite the adopted ruleset.
 5. **AI claims:** the implemented validator rejects unsupported IDs and placement labels, but generated interpretation quality and factual grounding still require adversarial evaluation before release.
-6. **Privacy:** profile rows are protected by Supabase RLS. Production still needs retention rules, rate limits, consent design, and a security review.
-7. **Geocoding:** the public Nominatim endpoint limits use to at most one request per second per application and requires attribution and an identifying contact. The server serializes requests and caches searches; switch provider before high traffic.
+6. **Privacy:** profile and snapshot rows have Supabase RLS; the app offers export, profile deletion and account deletion. Account deletion and RLS require live verification with user credentials before release.
+7. **Geocoding:** the public Nominatim endpoint limits use to at most one request per second per application and requires attribution and an identifying contact. The server serializes requests and caches searches. Production requires a configured hosted Nominatim-compatible endpoint.
+8. **Operations:** the in-memory per-token rate limiter handles one instance only. Deploy a shared limiter before scaling. `/ready` checks required configuration; request logs omit tokens, queries and birth data.
 
 ## Testable milestones
 
 1. **Foundation:** project setup, onboarding, auth and row-scoped profile API implemented in source; live Supabase integration remains untested without project credentials.
-2. **Calculation core:** both lenses, houses, nakshatra and initial dasha from one UTC instant; unit tests pass. **Golden reference comparison remains a release gate.**
-3. **Verified chart:** pinned ephemeris data and independent fixtures, including Kochi 2002-06-21 20:20 IST and edge cases; no fallback allowed.
+2. **Calculation core:** both lenses, houses, nakshatra and initial dasha from one UTC instant; unit tests pass.
+3. **Verified chart:** pinned ephemeris data and an independent Kochi 2002-06-21 20:20 IST reference for three bodies are tested; further references remain a release gate.
 4. **Interpretation:** fact IDs and validated structured prose implemented; live model calls and adversarial evaluation remain.
-5. **Relationships and release:** synastry/Koota, secure persistence, accessibility, deployment, and licensing complete.
+5. **Relationships and release:** basic synastry and descriptive Vedic placements are implemented; Koota rules, live storage validation, device accessibility and deployment remain.
 
 ## MVP acceptance criteria
 
@@ -49,4 +52,4 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 - Time-dependent results disappear for unknown time; DST gaps and unresolved ambiguous times are not guessed.
 - The app shows both lenses from the same profile, provides calculation metadata, and does not present illustrative prose as a calculated reading.
 - Automated tests cover timezone folds/gaps, sidereal/tropical separation, nakshatra boundaries, dasha balance, and missing time.
-- Public release waits for independent golden fixtures, security, and licensing.
+- Public release waits for live integration, broader fixtures, security and device checks, and source availability.

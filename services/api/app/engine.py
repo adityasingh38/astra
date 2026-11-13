@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta, timezone
 from math import floor
 import os
+import hashlib
+from pathlib import Path
+from functools import lru_cache
+from importlib.metadata import version
 from threading import Lock
 
 import swisseph as swe
@@ -15,6 +19,21 @@ AYANAMSA = {"lahiri": swe.SIDM_LAHIRI, "raman": swe.SIDM_RAMAN, "krishnamurti": 
 HOUSE_CODES = {"placidus": b"P", "whole_sign": b"W", "equal": b"E"}
 _swe_lock = Lock()  # set_sid_mode changes process-global Swiss Ephemeris state.
 ASPECTS = (("conjunction", 0, 8), ("sextile", 60, 5), ("square", 90, 6), ("trine", 120, 6), ("opposition", 180, 8))
+EPHE_HASHES = {
+    "sepl_18.se1": "ca1393ceab3a44fbc895887cf789c68819ae6a1cbc9b22225872dbe4ccd99a66",
+    "semo_18.se1": "1ca07bd67c24374d77226180c20a4f9996cba013697894810518e7eb582ca4f7",
+}
+EPHE_DIR = Path(__file__).resolve().parent.parent / "data" / "ephe"
+
+
+@lru_cache(maxsize=1)
+def verified_ephemeris_path() -> str:
+    path = Path(os.getenv("SWEPH_EPHE_PATH", str(EPHE_DIR))).resolve()
+    for name, digest in EPHE_HASHES.items():
+        data = path / name
+        if not data.is_file() or hashlib.sha256(data.read_bytes()).hexdigest() != digest:
+            raise ValueError(f"Pinned ephemeris file missing or changed: {name}")
+    return str(path)
 
 
 def zodiac(longitude: float) -> dict:
@@ -83,8 +102,9 @@ def calculate(profile: BirthProfile, birth_utc: datetime, warnings: list[str]) -
 
 def _calculate_locked(profile: BirthProfile, birth_utc: datetime, warnings: list[str]) -> dict:
     from .derived import antardashas, divisional_chart, element_distribution, whole_sign_houses
-    if ephe_path := os.getenv("SWEPH_EPHE_PATH"):
-        swe.set_ephe_path(ephe_path)
+    if not 1800 <= birth_utc.year <= 2399:
+        raise ValueError("Pinned ephemeris supports 1800–2399 only")
+    swe.set_ephe_path(verified_ephemeris_path())
     hour = birth_utc.hour + birth_utc.minute / 60 + birth_utc.second / 3600 + birth_utc.microsecond / 3_600_000_000
     jd = swe.julday(birth_utc.year, birth_utc.month, birth_utc.day, hour)
     node = swe.TRUE_NODE if profile.node_mode == "true" else swe.MEAN_NODE
@@ -99,15 +119,11 @@ def _calculate_locked(profile: BirthProfile, birth_utc: datetime, warnings: list
         bodies = PLANETS if not sidereal else {k: v for k, v in PLANETS.items() if k not in ("Uranus", "Neptune", "Pluto")}
         for name, body in {**bodies, "Rahu": node}.items():
             positions[name], returned[name] = _planet(jd, body, flags)
-        if any(value & swe.FLG_MOSEPH for value in returned.values()):
-            local_ephemeris_warning = "Swiss Ephemeris data files were unavailable; Moshier fallback was used. This chart is unverified."
-        else:
-            local_ephemeris_warning = None
+        if any(not value & swe.FLG_SWIEPH for value in returned.values()):
+            raise ValueError("Swiss Ephemeris did not use the pinned data files")
         positions["Ketu"] = {**zodiac(positions["Rahu"]["longitude"] + 180), "speed_longitude": positions["Rahu"]["speed_longitude"], "retrograde": positions["Rahu"]["retrograde"]}
         houses, house_warning = _houses(jd, profile, sidereal) if profile.time_known else (None, None)
         local_warnings = list(warnings)
-        if local_ephemeris_warning:
-            local_warnings.append(local_ephemeris_warning)
         if house_warning:
             local_warnings.append(house_warning)
         result = {
@@ -119,6 +135,7 @@ def _calculate_locked(profile: BirthProfile, birth_utc: datetime, warnings: list
             "metadata": {
                 "julian_day_ut": jd,
                 "ephemeris_version": swe.version,
+                "ephemeris_data": "sepl_18.se1 + semo_18.se1 (SHA-256 pinned)",
                 "requested_ephemeris": "Swiss Ephemeris",
                 "actual_ephemeris_flags": returned,
                 "node_mode": profile.node_mode,
@@ -127,6 +144,7 @@ def _calculate_locked(profile: BirthProfile, birth_utc: datetime, warnings: list
                 "geocentric": True,
                 "birth_utc": birth_utc.isoformat(),
                 "birth_timezone": profile.timezone,
+                "tzdata_package_version": version("tzdata"),
                 "birth_time_known": profile.time_known,
             },
         }
