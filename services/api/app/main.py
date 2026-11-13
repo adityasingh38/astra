@@ -1,5 +1,6 @@
 from uuid import UUID
 from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 from collections import defaultdict, deque
 from hashlib import sha256
 from threading import Lock
@@ -143,7 +144,7 @@ async def profile_transits(profile_id: UUID, day: date | None = None, _user: str
     row = await ProfileStore(bearer_token(authorization)).get(profile_id)
     profile = row_to_profile(row)
     try:
-        return transits(profile, _chart(profile), day or datetime.now(timezone.utc).date())
+        return transits(profile, _chart(profile), day or datetime.now(ZoneInfo(profile.timezone)).date())
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
 

@@ -31,6 +31,7 @@ def test_connections_omit_untimed_moon():
 def test_transit_snapshot_is_calculated_and_untimed_moon_omitted():
     profile = make_profile(known=False)
     result = transits(profile, chart(profile), date(2026, 11, 13))
-    assert result["sample_time_utc"] == "2026-11-13T12:00:00+00:00"
+    assert result["sample_time_utc"] == "2026-11-13T06:30:00+00:00"
+    assert result["date_local"] == "2026-11-13"
     assert result["vedic"]["moon_nakshatra"]["name"]
     assert all(item["second"] != "Moon" for item in result["western"]["natal_aspects"])

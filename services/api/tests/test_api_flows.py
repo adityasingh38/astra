@@ -37,7 +37,7 @@ def test_profile_chart_transit_comparison_and_export(monkeypatch):
         assert chart.json()["vedic"]["moon_nakshatra"]["name"]
         transit = client.get(f"/birth-profiles/{first_id}/transits?day=2026-11-13", headers=headers)
         assert transit.status_code == 200
-        assert transit.json()["date_utc"] == "2026-11-13"
+        assert transit.json()["date_local"] == "2026-11-13"
         comparison = client.get(f"/birth-profiles/{first_id}/connections/{second_id}", headers=headers)
         assert comparison.status_code == 200
         assert comparison.json()["profiles"] == ["First", "Second"]

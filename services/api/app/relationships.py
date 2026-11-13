@@ -1,5 +1,6 @@
 """Transparent comparisons of calculated positions; no compatibility score."""
 from datetime import date, datetime, time, timezone
+from zoneinfo import ZoneInfo
 
 from .engine import ASPECTS, calculate
 from .models import BirthProfile
@@ -35,12 +36,12 @@ def compatibility(first: dict, second: dict) -> dict:
 def transits(profile: BirthProfile, natal: dict, day: date) -> dict:
     if not 1800 <= day.year <= 2399:
         raise ValueError("Pinned ephemeris supports 1800–2399 only")
-    at_utc = datetime.combine(day, time(12), tzinfo=timezone.utc)
+    at_utc = datetime.combine(day, time(12), tzinfo=ZoneInfo(profile.timezone)).astimezone(timezone.utc)
     sky = calculate(profile, at_utc, [])
     natal_names = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn") if profile.time_known else ("Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn")
     transit_names = ("Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn")
     aspects = cross_aspects({k: sky["western"]["positions"][k] for k in transit_names}, {k: natal["western"]["positions"][k] for k in natal_names}, orb_cap=2)
-    return {"date_utc": day.isoformat(), "sample_time_utc": at_utc.isoformat(), "western": {"positions": sky["western"]["positions"], "natal_aspects": aspects},
+    return {"date_local": day.isoformat(), "timezone": profile.timezone, "sample_time_utc": at_utc.isoformat(), "western": {"positions": sky["western"]["positions"], "natal_aspects": aspects},
             "vedic": {"moon": sky["vedic"]["positions"]["Moon"], "moon_nakshatra": sky["vedic"]["moon_nakshatra"]},
-            "method": "Geocentric positions at 12:00 UTC; major aspects to natal planets within 2°. Snapshot, not a whole-day forecast.",
+            "method": "Geocentric positions at 12:00 local time; major aspects to natal planets within 2°. Snapshot, not a whole-day forecast.",
             "warnings": [] if profile.time_known else ["Natal Moon omitted because birth time is unknown."]}
