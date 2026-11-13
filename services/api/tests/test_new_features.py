@@ -1,6 +1,7 @@
 import asyncio
 
 import pytest
+import httpx
 from fastapi.testclient import TestClient
 
 from app.derived import antardashas, divisional_sign
@@ -56,6 +57,26 @@ def test_ai_reading_rejects_ephemeris_fallback():
     with pytest.raises(HTTPException) as error:
         asyncio.run(generate_reading(chart, ReadingRequest(lens="western", topic="identity")))
     assert error.value.status_code == 422
+
+
+def test_ai_reading_reports_exhausted_credits(monkeypatch):
+    from fastapi import HTTPException
+    from app import interpretation
+    monkeypatch.setenv("OPENAI_API_KEY", "test-only")
+
+    class Upstream:
+        async def __aenter__(self):
+            return self
+        async def __aexit__(self, *_):
+            pass
+        async def post(self, *_args, **_kwargs):
+            return httpx.Response(429, json={"error": {"code": "credit_balance_exhausted"}}, request=httpx.Request("POST", "https://api.openai.com/v1/responses"))
+
+    monkeypatch.setattr(interpretation.httpx, "AsyncClient", lambda **_kwargs: Upstream())
+    with pytest.raises(HTTPException) as error:
+        asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens="western", topic="identity")))
+    assert error.value.status_code == 503
+    assert "credits" in error.value.detail
 
 
 def test_personal_chart_requires_authentication(monkeypatch):

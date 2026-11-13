@@ -73,6 +73,13 @@ async def generate_reading(chart: dict, request: ReadingRequest) -> dict:
     try:
         async with httpx.AsyncClient(timeout=30) as client:
             response = await client.post("https://api.openai.com/v1/responses", headers={"Authorization": f"Bearer {api_key}"}, json=body)
+            if response.status_code == 429:
+                error = response.json().get("error") or {}
+                if error.get("code") in ("credit_balance_exhausted", "insufficient_quota"):
+                    raise HTTPException(503, "OpenAI API credits are exhausted for this project")
+                raise HTTPException(429, "OpenAI is rate limiting readings; try again shortly")
+            if response.status_code in (401, 403):
+                raise HTTPException(503, "OpenAI API key is invalid or lacks access to the selected model")
             response.raise_for_status()
         output = response.json()
         if output.get("status") != "completed":
