@@ -9,6 +9,7 @@ from app.storage import profile_to_row
 
 
 def test_profile_chart_transit_comparison_and_export(monkeypatch):
+    monkeypatch.setenv("READING_PROVIDER", "local")
     first_id, second_id = uuid4(), uuid4()
     def row(name, id):
         profile = BirthProfile(name=name, birth_date="2002-06-21", birth_time="20:20", timezone="Asia/Kolkata", latitude=9.9312, longitude=76.2673, place_label="Kochi")
@@ -41,6 +42,9 @@ def test_profile_chart_transit_comparison_and_export(monkeypatch):
         comparison = client.get(f"/birth-profiles/{first_id}/connections/{second_id}", headers=headers)
         assert comparison.status_code == 200
         assert comparison.json()["profiles"] == ["First", "Second"]
+        reading = client.post(f"/birth-profiles/{first_id}/readings", headers=headers, json={"lens": "vedic", "topic": "love"})
+        assert reading.status_code == 200
+        assert reading.json()["source"] == "local_editorial"
         export = client.get("/privacy/export", headers=headers)
         assert export.status_code == 200
         assert len(export.json()["birth_profiles"]) == 2

@@ -59,9 +59,23 @@ def test_ai_reading_rejects_ephemeris_fallback():
     assert error.value.status_code == 422
 
 
-def test_ai_reading_reports_exhausted_credits(monkeypatch):
-    from fastapi import HTTPException
+def test_local_readings_use_calculated_facts_for_every_topic(monkeypatch):
+    monkeypatch.setenv("READING_PROVIDER", "local")
+    for lens in ("western", "vedic"):
+        for topic in ("identity", "love", "career"):
+            result = asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens=lens, topic=topic)))
+            assert result["source"] == "local_editorial"
+            assert len(result["reading"]["sentences"]) >= 2
+            assert all(id in result["facts"] for sentence in result["reading"]["sentences"] for id in sentence["fact_ids"])
+    unknown = sample_chart()
+    unknown["birth_profile"]["time_known"] = False
+    result = asyncio.run(generate_reading(unknown, ReadingRequest(lens="vedic", topic="love")))
+    assert all("moon" not in id for sentence in result["reading"]["sentences"] for id in sentence["fact_ids"])
+
+
+def test_exhausted_credits_fall_back_to_local_reading(monkeypatch):
     from app import interpretation
+    monkeypatch.setenv("READING_PROVIDER", "openai")
     monkeypatch.setenv("OPENAI_API_KEY", "test-only")
 
     class Upstream:
@@ -73,10 +87,8 @@ def test_ai_reading_reports_exhausted_credits(monkeypatch):
             return httpx.Response(429, json={"error": {"code": "credit_balance_exhausted"}}, request=httpx.Request("POST", "https://api.openai.com/v1/responses"))
 
     monkeypatch.setattr(interpretation.httpx, "AsyncClient", lambda **_kwargs: Upstream())
-    with pytest.raises(HTTPException) as error:
-        asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens="western", topic="identity")))
-    assert error.value.status_code == 503
-    assert "credits" in error.value.detail
+    result = asyncio.run(generate_reading(sample_chart(), ReadingRequest(lens="western", topic="identity")))
+    assert result["source"] == "local_editorial"
 
 
 def test_personal_chart_requires_authentication(monkeypatch):

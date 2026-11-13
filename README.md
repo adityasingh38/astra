@@ -4,7 +4,7 @@ An AGPL-3.0-or-later, calculation-first Expo + FastAPI implementation of one bir
 
 ## Status
 
-Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; and fact-cited AI readings through the OpenAI Responses API.
+Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; free, locally written fact-cited readings; and optional AI readings through the OpenAI Responses API.
 
 Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only. A birth profile is persisted in Supabase; chart results are recalculated when opened and saved once per profile fingerprint and calculation version. Today shows a noon local-time transit snapshot, not an all-day forecast. Connections shows calculated aspects and Vedic placements without a compatibility score.
 
@@ -19,7 +19,7 @@ Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/
 
 ## Local setup
 
-Requires Python 3.11+, Node 20+, npm, a Supabase project, and an OpenAI API key for AI readings. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
+Requires Python 3.11+, Node 20+, npm, and a Supabase project. An OpenAI API key is optional; free local readings are the default. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
 
 ```sh
 python -m venv .venv
@@ -27,7 +27,7 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 cp .env.example .env
 # Set Supabase credentials, a contact-bearing GEOCODING_USER_AGENT,
-# and OPENAI_API_KEY (server side only).
+# and READING_PROVIDER=local. OpenAI credentials are optional.
 # Bundled, SHA-256-checked Swiss Ephemeris files cover 1800–2399.
 uvicorn app.main:app --env-file .env --reload
 python -m pytest
@@ -51,7 +51,7 @@ The welcome starfield and chart orbit in `apps/mobile/src/sky-components.tsx` ar
 
 The API listens on localhost by default; use `uvicorn app.main:app --env-file .env --host 0.0.0.0 --reload` for a device on your LAN. Do not put the OpenAI key or a Supabase service-role key in the mobile app. Profile requests use the signed-in user's access token so Supabase row level security applies.
 
-AI readings reject model sentences that introduce chart labels rather than citing a calculated fact card. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
+Local readings use authored prompts selected from calculated sign placements and show every supporting fact. They do not call an AI service. To opt into paid AI readings later, set `READING_PROVIDER=openai` and a server-side `OPENAI_API_KEY`; exhausted API credits fall back to local readings. AI readings reject model sentences that introduce chart labels rather than citing a calculated fact card. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
 
 ## License and source
 

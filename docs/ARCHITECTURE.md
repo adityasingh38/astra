@@ -21,8 +21,8 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 - Western aspects cover conjunction, sextile, square, trine and opposition using configurable default orbs (8°, 5°, 6°, 6°, 8°). These are symbolic astrology rules, not astronomical events.
 - D9 maps 3°20′ segments: movable signs start with themselves, fixed signs at the ninth, and dual signs at the fifth. D10 maps 3° segments: odd signs start with themselves and even signs at the ninth. The API reports the mapping and suppresses divisional ascendants without a birth time.
 - Antardashas subdivide each Mahadasha in the standard planetary order, proportional to each ruler's years out of 120, using the same 365.25-day convention.
-- AI readings receive a small allowlist of fact IDs from one lens and topic. The model returns structured sentences citing those IDs; validation rejects unknown citations or chart labels in narrative text. Exact placements are rendered from calculation facts, not model prose.
-- AI readings are unavailable if the engine cannot use the pinned data. Moon-dependent reading facts are withheld when birth time is unknown.
+- Free local readings select authored reflective prompts from calculated sign placements and cite fact IDs. They do not call a model. Optional AI readings receive the same allowlist of facts; validation rejects unknown citations or chart labels in model prose. Exact placements are rendered from calculation facts, not prose.
+- All readings are unavailable if the engine cannot use the pinned data. Moon-dependent reading facts are withheld when birth time is unknown. The default `READING_PROVIDER=local` makes no paid API calls; an explicit `openai` setting opts in.
 - Today samples current planetary positions at 12:00 in the profile's timezone and reports major aspects within 2° of natal planets; it is a snapshot rather than a forecast for the whole day.
 - Connections compares major Western aspects within 5° and shows Vedic Moon nakshatra/sign and D9 Venus sign. There is no compatibility score; Moon comparisons are withheld if either birth time is unknown.
 
