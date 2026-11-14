@@ -1,6 +1,7 @@
 **/node_modules/
 **/.expo/
 **/dist/
+**/dist-live*/
 **/.venv/
 **/__pycache__/
 **/.pytest_cache/
