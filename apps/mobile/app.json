@@ -15,7 +15,18 @@
         "backgroundColor": "#0B0B0A"
       }
     },
-    "plugins": ["expo-router"],
-    "experiments": {"typedRoutes": true}
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4a101933-ec42-4ddb-a248-24d002cd7d05"
+      }
+    },
+    "owner": "adityasingh38"
   }
 }

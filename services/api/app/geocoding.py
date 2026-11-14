@@ -9,7 +9,7 @@ from timezonefinder import TimezoneFinder
 _lock = asyncio.Lock()
 _last_request = 0.0
 _cache: dict[str, tuple[float, list[dict]]] = {}
-_zones = TimezoneFinder(in_memory=True)
+_zones = TimezoneFinder(in_memory=False)
 
 
 async def search_places(query: str) -> list[dict]:

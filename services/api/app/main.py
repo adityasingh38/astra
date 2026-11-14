@@ -24,7 +24,9 @@ from .storage import ProfileStore, row_to_profile
 from .timezone import BirthTimeError, resolve_utc
 
 app = FastAPI(title="ASTRA calculation API", version="0.3.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:8081", "http://127.0.0.1:8081"], allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Authorization", "Content-Type"])
+allowed_origins = ["http://localhost:8081", "http://127.0.0.1:8081"]
+allowed_origins.extend(origin.strip() for origin in os.getenv("ASTRA_ALLOWED_ORIGINS", "").split(",") if origin.strip())
+app.add_middleware(CORSMiddleware, allow_origins=allowed_origins, allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Authorization", "Content-Type"])
 _rate_lock = Lock()
 _rate_events: dict[tuple[str, str], deque] = defaultdict(deque)
 logger = logging.getLogger("astra.api")
