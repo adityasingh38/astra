@@ -8,7 +8,9 @@
 - External account deletion: https://adityasingh38.github.io/astra/delete-account.html
 - Support: hello@trysurge.in
 - License and source: https://github.com/adityasingh38/astra (AGPL-3.0-or-later)
-- Store screenshots: `../astra-play-store-phone-screenshots.zip` (8 framed 1080 × 1920 PNGs); raw screenshots are in `../astra-play-store-raw-screenshots.zip`.
+- Store screenshots: `../../astra-play-store-phone-screenshots.zip` (8 framed 1080 × 1920 PNGs); an unframed set is in `../../astra-play-store-screenshots.zip`.
+- Store icon: `../../astra-play-store-icon.png` (512 × 512 PNG).
+- Feature graphic: `../../astra-play-store-feature-graphic.png` (1024 × 500 PNG).
 
 ## Suggested store copy
 
