@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { router } from 'expo-router';
-import { Body, Divider, Eyebrow, GhostButton, Page, PaperCard, Title } from '../src/ui';
-import { colors } from '../src/theme';
-import { ReadingDisplay, ReadingResult } from '../src/reading-display';
+import { Body, Divider, Eyebrow, GhostButton, Page, Title } from '../src/ui';
+import { ReadingDisplay, ReadingHero, ReadingResult } from '../src/reading-display';
 
 const sample: ReadingResult = {
   reading: {
@@ -28,11 +26,7 @@ export default function ReadingPreview() {
     <Title>A closer look at connection.</Title>
     <Body>This preview uses fictional chart placements to show how ASTRA's written passages appear. It is not a reading about you.</Body>
     <Divider/>
-    <PaperCard>
-      <Eyebrow>LOVE & RELATIONSHIPS</Eyebrow>
-      <Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 30, fontWeight: '700' }}>How you connect.</Text>
-      <Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 21 }}>Western perspective · tropical zodiac</Text>
-    </PaperCard>
+    <ReadingHero topic="love" lens="western"/>
     <ReadingDisplay result={sample} illustrative/>
     <GhostButton title="Explore your own chart" onPress={() => router.push('/(tabs)/explore')}/>
   </Page>;

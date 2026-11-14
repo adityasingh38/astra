@@ -5,6 +5,7 @@ import { Body, Button, Card, ChoiceChip, Divider, Eyebrow, GhostButton, Page, Pa
 import { colors } from '../src/theme';
 import { glossary, houses, planets, signs } from '../src/learn-content';
 import { useChart } from '../src/store';
+import { PlanetIcon } from '../src/planet-symbols';
 
 type Section = 'start' | 'signs' | 'houses' | 'planets' | 'words';
 const sections: { id: Section; label: string }[] = [
@@ -49,7 +50,7 @@ export default function Learn() {
       {chart && <Card><Eyebrow>IN YOUR CHART</Eyebrow>{chart.western.houses && chart.vedic.houses ? <Body>Western house {house.number} begins in {chart.western.houses.cusps[house.number - 1].sign}. Vedic whole-sign house {house.number} begins in {chart.vedic.houses.cusps[house.number - 1].sign}.</Body> : <Body>Your birth time is unknown, so ASTRA does not guess your houses.</Body>}</Card>}
     </>}
 
-    {section === 'planets' && <><Body>In a chart, a planet names the theme being described. Its sign gives a style; its house can add an area of life.</Body>{planets.map(item => <Card key={item.name}><Eyebrow>{item.name}</Eyebrow><Body>{item.role}</Body></Card>)}</>}
+    {section === 'planets' && <><Body>In a chart, a planet names the theme being described. Its sign gives a style; its house can add an area of life.</Body>{planets.map(item => <Card key={item.name}><View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>{item.name === 'Rahu / Ketu' ? <View style={{ flexDirection: 'row', gap: 5 }}><PlanetIcon name="Rahu"/><PlanetIcon name="Ketu"/></View> : <PlanetIcon name={item.name}/>}<Eyebrow>{item.name}</Eyebrow></View><Body>{item.role}</Body></Card>)}</>}
     {section === 'words' && <><Body>A quick reference for terms ASTRA uses in charts and readings.</Body>{glossary.map(item => <Card key={item.term}><Eyebrow>{item.term}</Eyebrow><Body>{item.meaning}</Body></Card>)}</>}
     <Divider/><Eyebrow>READ FURTHER</Eyebrow>
     <GhostButton title="Astrodienst · Houses" onPress={() => void Linking.openURL('https://www.astro.com/astrowiki/en/House')}/>

@@ -5,7 +5,7 @@ import { Body, Button, ChoiceChip, Divider, Eyebrow, GhostButton, Page, PaperCar
 import { apiFetch } from '../../src/api';
 import { useChart } from '../../src/store';
 import { colors } from '../../src/theme';
-import { ReadingDisplay, ReadingResult } from '../../src/reading-display';
+import { ReadingDisplay, ReadingHero, ReadingResult } from '../../src/reading-display';
 
 export default function Explore() {
   const { profileId } = useChart();
@@ -15,10 +15,10 @@ export default function Explore() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   useEffect(() => { setResult(null); setError(''); }, [profileId]);
-  async function generate() {
+  async function generate(nextLens: 'western' | 'vedic' = lens) {
     if (!profileId) { setError('Add a birth profile first.'); return; }
-    setBusy(true); setError('');
-    try { setResult(await apiFetch<ReadingResult>(`/birth-profiles/${profileId}/readings`, { method: 'POST', body: JSON.stringify({ lens, topic }) })); }
+    setLens(nextLens); setResult(null); setBusy(true); setError('');
+    try { setResult(await apiFetch<ReadingResult>(`/birth-profiles/${profileId}/readings`, { method: 'POST', body: JSON.stringify({ lens: nextLens, topic }) })); }
     catch (e) { setError(e instanceof Error ? e.message : 'Reading unavailable.'); }
     finally { setBusy(false); }
   }
@@ -31,14 +31,11 @@ export default function Explore() {
     <View style={{ flexDirection: 'row', gap: 8 }}>{(['western', 'vedic'] as const).map(value => <ChoiceChip key={value} label={value} selected={lens === value} onPress={() => { setLens(value); setResult(null); }}/>)}</View>
     <Eyebrow>02 / YOUR FOCUS</Eyebrow>
     <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{(['identity', 'love', 'career'] as const).map(value => <ChoiceChip key={value} label={value} selected={topic === value} onPress={() => { setTopic(value); setResult(null); }}/>)}</View>
-    <PaperCard>
-      <Text style={{ color: colors.ink, fontFamily: 'Georgia', fontWeight: '700', fontSize: 28 }}>{topic === 'love' ? 'How you connect.' : topic === 'identity' ? 'Who you are becoming.' : 'What moves you forward.'}</Text>
-      <Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 21 }}>{lens === 'western' ? 'Through the tropical zodiac and natal aspects.' : 'Through the sidereal zodiac and Jyotish principles.'}</Text>
-    </PaperCard>
+    <ReadingHero topic={topic} lens={lens}/>
     <Button title={busy ? 'Reading…' : 'Read your chart'} onPress={() => void generate()} disabled={busy}/>
     <GhostButton title="Preview a sample reading" onPress={() => router.push('/reading-preview')}/>
     {error ? <Text accessibilityRole="alert" style={{ color: colors.ivory, borderLeftWidth: 2, borderColor: colors.paper, paddingLeft: 14 }}>{error}</Text> : null}
-    {result && <ReadingDisplay result={result}/>}
+    {result && <><ReadingDisplay result={result}/><GhostButton title={`Read the ${result.lens === 'western' ? 'Vedic' : 'Western'} perspective`} onPress={() => void generate(result.lens === 'western' ? 'vedic' : 'western')}/><GhostButton title="Open your full natal chart" onPress={() => router.push({ pathname: '/(tabs)/chart', params: { lens: result.lens } })}/></>}
     <Divider/><Eyebrow>MORE TO EXPLORE</Eyebrow>
     <PaperCard><Text style={{ color: colors.ink, fontFamily: 'Georgia', fontWeight: '700', fontSize: 27 }}>Your Moolank.</Text><Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 21 }}>A separate reading drawn from the day of your birth, with every calculation step shown.</Text></PaperCard>
     <Button title="Read your birth number" onPress={() => router.push('/moolank')}/>
