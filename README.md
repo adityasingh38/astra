@@ -17,6 +17,8 @@ Independent JPL Horizons reference points for Sun, Moon, and Mars are in `tests/
 - `db` — Supabase PostgreSQL tables and row level security policies.
 - `docs` — architecture, calculation conventions, risks, and milestones.
 
+Build commands and the requirements for an installable Android APK are in [`docs/BUILD.md`](docs/BUILD.md).
+
 ## Local setup
 
 Requires Python 3.11+, Node 20+, npm, and a Supabase project. No AI key or model installation is needed for readings. Run `db/001_initial.sql`, `db/002_snapshot_fingerprint.sql`, and `db/003_delete_account.sql` in order in your Supabase SQL editor, then set the same project URL and publishable key in both `.env` files. From `services/api`:
