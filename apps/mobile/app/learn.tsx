@@ -16,10 +16,10 @@ export default function Learn() {
   const params = useLocalSearchParams<{ section?: string; sign?: string; house?: string }>();
   const { chart, profileId } = useChart();
   const [section, setSection] = useState<Section>(sections.find(item => item.id === params.section)?.id ?? 'start');
-  const [selectedSign, setSelectedSign] = useState(signs.find(item => item.name === params.sign)?.name ?? 'Cancer');
+  const [selectedSign, setSelectedSign] = useState(signs.find(item => item.name === params.sign)?.name ?? signs[0].name);
   const [selectedHouse, setSelectedHouse] = useState(Number(params.house) >= 1 && Number(params.house) <= 12 ? Number(params.house) : 1);
   useEffect(() => { if (sections.some(item => item.id === params.section)) setSection(params.section as Section); if (signs.some(item => item.name === params.sign)) setSelectedSign(params.sign as string); if (Number(params.house) >= 1 && Number(params.house) <= 12) setSelectedHouse(Number(params.house)); }, [params.section, params.sign, params.house]);
-  const sign = signs.find(item => item.name === selectedSign) ?? signs[3];
+  const sign = signs.find(item => item.name === selectedSign) ?? signs[0];
   const house = houses[selectedHouse - 1];
   return <Page>
     <Eyebrow>ASTRA / FIELD GUIDE</Eyebrow><Title>Read the language of the sky.</Title>
@@ -27,9 +27,9 @@ export default function Learn() {
     <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{sections.map(item => <ChoiceChip key={item.id} label={item.label} selected={section === item.id} onPress={() => setSection(item.id)}/>)}</View>
 
     {section === 'start' && <>
-      <PaperCard><Eyebrow>ONE PLACEMENT, THREE PARTS</Eyebrow><Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 31, fontWeight: '700' }}>Sun in Cancer.</Text><Text style={{ color: colors.ink, fontSize: 15, lineHeight: 24 }}>In astrology, the Sun represents a theme of identity. Cancer adds a style of care and belonging. So this phrase invites you to consider how care relates to your sense of self. One placement never describes a whole person.</Text></PaperCard>
+      <PaperCard><Eyebrow>START WITH THE BASICS</Eyebrow><Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 31, fontWeight: '700' }}>How to read a chart.</Text><Text style={{ color: colors.ink, fontSize: 15, lineHeight: 24 }}>A placement brings together a planet, a sign, and sometimes a house. Learn what each part describes, then explore the guides below. No single placement describes a whole person.</Text></PaperCard>
       <Card><Eyebrow>PLANET / WHAT</Eyebrow><Body>The planet names a theme. The Sun is linked with identity; Venus with affection; Mercury with thinking and speech.</Body></Card>
-      <Card><Eyebrow>SIGN / HOW</Eyebrow><Body>The sign gives that theme a style. Cancer suggests care; Gemini suggests curiosity. Every sign can show up in anyone’s chart.</Body></Card>
+      <Card><Eyebrow>SIGN / HOW</Eyebrow><Body>The sign gives that theme a style. Explore all twelve signs to learn their elements, modes, and common interpretations. Every sign can show up in anyone’s chart.</Body></Card>
       <Card><Eyebrow>HOUSE / WHERE</Eyebrow><Body>A house is one of twelve areas of life. A planet’s house adds context, such as relationships, home, or public work. Houses need an accurate birth time.</Body></Card>
       <Card><Eyebrow>WHY ASTRA HAS TWO LENSES</Eyebrow><Body>Western and Vedic astrology can place the same planet in different signs because ASTRA uses a tropical zodiac for the Western lens and a sidereal zodiac for the Vedic lens. Each calculation states its settings.</Body>{chart && <Body>Your Sun: Western {chart.western.positions.Sun.sign} · Vedic {chart.vedic.positions.Sun.sign}.</Body>}</Card>
       <GhostButton title="Explore every zodiac sign" onPress={() => setSection('signs')}/><GhostButton title="What are the twelve houses?" onPress={() => setSection('houses')}/>
@@ -39,7 +39,6 @@ export default function Learn() {
       <Body>All twelve signs are styles used in chart interpretation. Fire, Earth, Air, and Water are elements; Cardinal, Fixed, and Mutable describe how a sign tends to start, sustain, or adapt.</Body>
       <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>{signs.map(item => <ChoiceChip key={item.name} label={`${item.glyph} ${item.name}`} selected={selectedSign === item.name} onPress={() => setSelectedSign(item.name)}/>)}</View>
       <PaperCard><Text style={{ color: colors.ink, fontSize: 50 }}>{sign.glyph}</Text><Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 33, fontWeight: '700' }}>{sign.name}</Text><Text style={{ color: colors.ink, fontSize: 11, fontWeight: '800', letterSpacing: 2, textTransform: 'uppercase' }}>{sign.element} / {sign.mode}</Text><Text style={{ color: colors.ink, fontSize: 16, lineHeight: 25 }}>{sign.idea}</Text><Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 22 }}>{sign.question}</Text></PaperCard>
-      <Card><Eyebrow>WHAT DOES SUN IN {sign.name.toUpperCase()} MEAN?</Eyebrow><Body>The Sun is an identity theme. In {sign.name}, astrologers consider that theme through {sign.idea.toLowerCase()} This is one placement, not a complete description of a person.</Body></Card>
       {chart && <Card><Eyebrow>IN YOUR CHART</Eyebrow><Body>Western Sun: {chart.western.positions.Sun.sign}. Vedic Sun: {chart.vedic.positions.Sun.sign}. Other planets can be in other signs.</Body></Card>}
     </>}
 

@@ -56,7 +56,7 @@ export default function ChartScreen() {
     <NatalOrbit positions={lens.positions}/>
     <Text style={{ color: colors.soft, fontSize: 11, lineHeight: 17 }}>Planet markers use the calculated longitudes shown below. Positions share the same lens selected above.</Text>
     <LensSummary lens={lens} system={system}/>
-    <GhostButton title={`What does Sun in ${lens.positions.Sun.sign} mean?`} onPress={() => router.push({ pathname: '/learn', params: { section: 'signs', sign: lens.positions.Sun.sign } })}/>
+    <GhostButton title={`Learn about ${lens.positions.Sun.sign}`} onPress={() => router.push({ pathname: '/learn', params: { section: 'signs', sign: lens.positions.Sun.sign } })}/>
     <SectionHeading>PLANETARY POSITIONS</SectionHeading>
     <View>{Object.entries(lens.positions).map(([name, position]) => <DarkRow key={name} left={`${name}${position.retrograde ? ' ℞' : ''}`} right={`${position.sign} ${position.degree.toFixed(2)}°`}/>)}</View>
     {system === 'western' && <><Eyebrow>MAJOR ASPECTS</Eyebrow><View>{lens.aspects?.slice(0, 12).map((a, i) => <DarkRow key={i} left={`${a.first} · ${a.second}`} right={`${a.aspect} / ${a.orb.toFixed(2)}°`}/>)}</View></>}
