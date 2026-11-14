@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Platform, Share, Text } from 'react-native';
+import { Alert, Linking, Platform, Share, Text } from 'react-native';
 import { router } from 'expo-router';
 import { Body, Button, Card, ChoiceChip, Divider, Eyebrow, GhostButton, Page, Title } from '../../src/ui';
 import { useChart } from '../../src/store';
@@ -17,5 +17,6 @@ export default function You() {
     <Button title="Add another birth profile" onPress={() => router.push(session ? '/onboarding' : '/auth')}/>
     {profileId && <><GhostButton title="Edit selected profile" onPress={() => router.push({ pathname: '/onboarding', params: { edit: profileId } })}/><GhostButton title="Export my data" onPress={() => void exportData()}/><GhostButton title="Delete selected profile" onPress={() => confirmAction('Delete this birth profile and its saved charts?', () => void removeProfile())}/></>}
     {session && <><GhostButton title="Delete my account" onPress={() => confirmAction('Permanently delete your account, all birth profiles, and saved charts?', () => void deleteAccount())}/><GhostButton title="Sign out" onPress={() => { void supabase.auth.signOut(); router.replace('/'); }}/></>}
+    <GhostButton title="Privacy policy" onPress={() => void Linking.openURL('https://adityasingh38.github.io/astra/privacy.html')}/>
     {error ? <Text accessibilityRole="alert" style={{ color: '#FFB4A9' }}>{error}</Text> : null}</Page>;
 }

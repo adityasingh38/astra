@@ -36,7 +36,7 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 4. **Vedic conventions:** ayanamsa, node mode, divisional mapping, dasha year and Koota rules vary. Store each selection and cite the adopted ruleset.
 5. **Editorial claims:** the authored passages need review for clarity, cultural care, and consistency with the documented calculation conventions before release.
 6. **Privacy:** profile and snapshot rows have Supabase RLS; the app offers export, profile deletion and account deletion. Account deletion and RLS require live verification with user credentials before release.
-7. **Geocoding:** the public Nominatim endpoint limits use to at most one request per second per application and requires attribution and an identifying contact. The server serializes requests and caches searches. Production requires a configured hosted Nominatim-compatible endpoint.
+7. **Geocoding:** the public Nominatim endpoint limits use to at most one request per second per application and requires attribution and an identifying contact. The single-worker server serializes user-triggered requests and caches searches. `GEOCODING_URL` can switch providers without a mobile update if traffic grows or OpenStreetMap asks us to move.
 8. **Operations:** the in-memory per-token rate limiter handles one instance only. Deploy a shared limiter before scaling. `/ready` checks required configuration; request logs omit tokens, queries and birth data.
 
 ## Testable milestones

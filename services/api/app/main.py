@@ -78,8 +78,6 @@ def ready():
         verified_ephemeris_path()
     except ValueError:
         missing.append("pinned ephemeris")
-    if os.getenv("ASTRA_ENV") == "production" and "nominatim.openstreetmap.org" in os.getenv("GEOCODING_URL", "https://nominatim.openstreetmap.org/search"):
-        missing.append("production geocoder")
     if missing:
         raise HTTPException(503, {"not_ready": missing})
     return {"status": "ready", "ephemeris": "verified"}

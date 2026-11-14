@@ -16,6 +16,6 @@ The local Windows environment currently has no Android SDK or Java installation.
 
 ## Free API preview hosting
 
-The root `render.yaml` prepares a single free Render web service for the FastAPI backend. It prompts for the existing Supabase URL, publishable key, and a contact-bearing geocoding user agent; no credential value is committed. This is a low-volume preview setup, not production hosting. Render's free service can sleep when idle, so the first chart request after inactivity can be slow. Set `EXPO_PUBLIC_API_URL` to its HTTPS service URL when building an APK. Hosted web origins can be added with `ASTRA_ALLOWED_ORIGINS`.
+The root `render.yaml` prepares a single free Render web service for the FastAPI backend. It prompts for the existing Supabase URL, publishable key, and a contact-bearing geocoding user agent; no credential value is committed. This is a low-volume setup. Render's free service can sleep when idle, so the first chart request after inactivity can be slow. Keep one worker while using public Nominatim, and switch `GEOCODING_URL` to another provider if traffic grows. Set `EXPO_PUBLIC_API_URL` to the HTTPS service URL when building an APK or AAB. Hosted web origins can be added with `ASTRA_ALLOWED_ORIGINS`.
 
 The ASTRA preview API is deployed at `https://astra-api-preview.onrender.com`. Its `/health` and `/ready` endpoints were verified after deployment. The EAS `preview` environment contains this URL and the public Supabase client configuration.

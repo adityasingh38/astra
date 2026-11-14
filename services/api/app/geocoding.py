@@ -27,8 +27,6 @@ async def search_places(query: str) -> list[dict]:
             await asyncio.sleep(delay)
         _last_request = time.monotonic()
         base = os.getenv("GEOCODING_URL", "https://nominatim.openstreetmap.org/search")
-        if os.getenv("ASTRA_ENV") == "production" and "nominatim.openstreetmap.org" in base:
-            raise HTTPException(503, "Configure a hosted Nominatim-compatible geocoding endpoint for production")
         agent = os.getenv("GEOCODING_USER_AGENT")
         if not agent:
             raise HTTPException(503, "Set GEOCODING_USER_AGENT with an app contact before using birthplace search")
