@@ -24,12 +24,13 @@ const topicLabels: Record<string, [string, string]> = {
 
 export function ReadingHero({ topic, lens }: { topic: string; lens: string }) {
   const [label, title] = topicLabels[topic] ?? topicLabels.identity;
-  return <PaperCard>
-    <View style={{ alignSelf: 'flex-start', backgroundColor: colors.ink, borderRadius: 11, borderCurve: 'continuous', paddingHorizontal: 12, paddingVertical: 9 }}>
-      <Text style={{ color: colors.ivory, fontSize: 12, fontWeight: '900', letterSpacing: 2.2 }}>{label}</Text>
+  return <PaperCard style={{ gap: 12, paddingVertical: 28 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <Text style={{ color: colors.ink, fontSize: 11, fontWeight: '900', letterSpacing: 1.7, flexShrink: 1 }}>{label}</Text>
+      <View style={{ flex: 1, height: 1, backgroundColor: '#B9B5AA' }}/>
     </View>
-    <Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 30, fontWeight: '700' }}>{title}</Text>
-    <Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 21 }}>{lens === 'western' ? 'Western perspective · tropical zodiac' : 'Vedic perspective · sidereal zodiac'}</Text>
+    <Text style={{ color: colors.ink, fontFamily: 'Georgia', fontSize: 32, lineHeight: 39, fontWeight: '700', letterSpacing: -0.7, marginTop: 5 }}>{title}</Text>
+    <Text style={{ color: '#59574F', fontSize: 14, lineHeight: 21 }}>{lens === 'western' ? 'Western perspective · tropical zodiac' : 'Vedic perspective · sidereal zodiac'}</Text>
   </PaperCard>;
 }
 
