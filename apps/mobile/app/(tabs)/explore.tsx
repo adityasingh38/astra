@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { Body, Button, Card, ChoiceChip, Divider, Eyebrow, Page, PaperCard, Title } from '../../src/ui';
+import { router } from 'expo-router';
+import { Body, Button, Card, ChoiceChip, Divider, Eyebrow, GhostButton, Page, PaperCard, Title } from '../../src/ui';
 import { apiFetch } from '../../src/api';
 import { useChart } from '../../src/store';
 import { colors } from '../../src/theme';
@@ -38,5 +39,9 @@ export default function Explore() {
     <Button title={busy ? 'Reading…' : 'Read your chart'} onPress={() => void generate()} disabled={busy}/>
     {error ? <Text accessibilityRole="alert" style={{ color: colors.ivory, borderLeftWidth: 2, borderColor: colors.paper, paddingLeft: 14 }}>{error}</Text> : null}
     {result && <><Eyebrow>ASTRA COLLECTION / {result.lens.toUpperCase()} / {result.topic.toUpperCase()}</Eyebrow><Text style={{ color: colors.ivory, fontSize: 30, fontFamily: 'Georgia', fontWeight: '700' }}>{result.reading.title}</Text>{result.reading.entries.map((entry, index) => <Card key={`${entry.heading}-${index}`}><Eyebrow>{entry.heading}</Eyebrow><Body>{entry.text}</Body><Divider/>{entry.fact_ids.map(id => <Text key={id} style={{ color: colors.gold, fontSize: 12 }}>{result.facts[id]}</Text>)}</Card>)}<Body>Written in ASTRA and selected from your calculated chart. Symbolic reflection, not a prediction.</Body></>}
+    <Divider/><Eyebrow>MORE TO EXPLORE</Eyebrow>
+    <PaperCard><Text style={{ color: colors.ink, fontFamily: 'Georgia', fontWeight: '700', fontSize: 27 }}>Your Moolank.</Text><Text style={{ color: '#4A4A46', fontSize: 14, lineHeight: 21 }}>A separate reading drawn from the day of your birth, with every calculation step shown.</Text></PaperCard>
+    <Button title="Read your birth number" onPress={() => router.push('/moolank')}/>
+    <GhostButton title="Learn the signs, planets and houses" onPress={() => router.push('/learn')}/>
   </Page>;
 }

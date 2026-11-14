@@ -4,7 +4,7 @@ An AGPL-3.0-or-later, calculation-first Expo + FastAPI implementation of one bir
 
 ## Status
 
-Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; and readings assembled entirely from ASTRA's authored passage catalog.
+Implemented in source: Supabase email/password sign-in and session restore; authenticated, row-scoped birth-profile CRUD, selection, export and account deletion; explicit birthplace search with OpenStreetMap Nominatim and coordinate-to-IANA timezone lookup; historical timezone validation; pinned Swiss Ephemeris data and server-side Western/Vedic natal charts; D9/D10 sign mapping, whole-sign placements, Mahadasha/Antardasha periods; calculated transit snapshots and two-profile comparisons; readings assembled entirely from ASTRA's authored passage catalog; a field guide for signs, houses, planets and chart terms; and a separate Moolank reading calculated from the birth day.
 
 Birthplace coordinates and timezone can be selected from search results or entered manually. Public Nominatim is for low-volume development only. A birth profile is persisted in Supabase; chart results are recalculated when opened and saved once per profile fingerprint and calculation version. Today shows a noon local-time transit snapshot, not an all-day forecast. Connections shows calculated aspects and Vedic placements without a compatibility score.
 
@@ -51,6 +51,8 @@ The welcome starfield and chart orbit in `apps/mobile/src/sky-components.tsx` ar
 The API listens on localhost by default; use `uvicorn app.main:app --env-file .env --host 0.0.0.0 --reload` for a device on your LAN. Do not put a Supabase service-role key in the mobile app. Profile requests use the signed-in user's access token so Supabase row level security applies.
 
 Every Explore reading is a collection of prewritten passages from `services/api/app/reading_catalog.py`. ASTRA selects passages using calculated Western or Vedic placements, returns catalog IDs, and shows the supporting chart facts. No reading calls an AI service or invents prose. The local rate limiter covers reading and place-search requests, but a shared store is required for multiple API instances. `/health` checks liveness and `/ready` checks credentials, bundled data, and production geocoder configuration.
+
+The in-app field guide explains how to read a phrase such as “Sun in Cancer,” covers all twelve signs and houses, and defines common chart terms. Chart and Explore screens link to it directly. Moolank uses only the day of the month: repeatedly add its digits until a number from 1 to 9 remains (for example, 29 → 11 → 2). Its planetary association and three authored reflections are shown with the arithmetic. Moolank is a popular Indian numerology convention, separate from Jyotish chart calculation; ASTRA makes no predictive claim. The convention and associations follow [Kaala Panchang's explanation](https://www.kaalapanchang.com/mulank).
 
 ## License and source
 

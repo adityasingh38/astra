@@ -40,7 +40,7 @@ export default function ChartScreen() {
   const { chart, session } = useChart();
   const [system, setSystem] = useState<'western' | 'vedic'>('western');
   const [showMethod, setShowMethod] = useState(false);
-  if (!chart) return <Page><Eyebrow>YOUR NATAL ATLAS</Eyebrow><Title>Your sky begins with a birth profile.</Title><Body>Enter your birth details to see both astrological lenses.</Body><Button title={session ? 'Add birth details' : 'Sign in'} onPress={() => router.push(session ? '/onboarding' : '/auth')}/></Page>;
+  if (!chart) return <Page><Eyebrow>YOUR NATAL ATLAS</Eyebrow><Title>Your sky begins with a birth profile.</Title><Body>Enter your birth details to see both astrological lenses.</Body><Button title={session ? 'Add birth details' : 'Sign in'} onPress={() => router.push(session ? '/onboarding' : '/auth')}/><GhostButton title="Learn signs, planets and houses" onPress={() => router.push('/learn')}/></Page>;
   const lens = chart[system];
   return <Page>
     <Eyebrow>ASTRA / NATAL ATLAS</Eyebrow>
@@ -56,11 +56,13 @@ export default function ChartScreen() {
     <NatalOrbit positions={lens.positions}/>
     <Text style={{ color: colors.soft, fontSize: 11, lineHeight: 17 }}>Planet markers use the calculated longitudes shown below. Positions share the same lens selected above.</Text>
     <LensSummary lens={lens} system={system}/>
+    <GhostButton title={`What does Sun in ${lens.positions.Sun.sign} mean?`} onPress={() => router.push({ pathname: '/learn', params: { section: 'signs', sign: lens.positions.Sun.sign } })}/>
     <SectionHeading>PLANETARY POSITIONS</SectionHeading>
     <View>{Object.entries(lens.positions).map(([name, position]) => <DarkRow key={name} left={`${name}${position.retrograde ? ' ℞' : ''}`} right={`${position.sign} ${position.degree.toFixed(2)}°`}/>)}</View>
     {system === 'western' && <><Eyebrow>MAJOR ASPECTS</Eyebrow><View>{lens.aspects?.slice(0, 12).map((a, i) => <DarkRow key={i} left={`${a.first} · ${a.second}`} right={`${a.aspect} / ${a.orb.toFixed(2)}°`}/>)}</View></>}
     {system === 'vedic' && lens.mahadashas && <><Eyebrow>VIMSHOTTARI / MAHADASHA</Eyebrow><View>{lens.mahadashas.slice(0, 5).map((p, i) => <DarkRow key={i} left={p.ruler} right={`${p.start_utc.slice(0, 10)} → ${p.end_utc.slice(0, 10)}`}/>)}</View></>}
     {system === 'vedic' && lens.divisional && <><Eyebrow>DIVISIONAL CHARTS</Eyebrow><Card>{(['D9', 'D10'] as const).map(key => <View key={key} style={{ gap: 7 }}><Text style={{ color: colors.ivory, fontFamily: 'Georgia', fontSize: 23 }}>{key} / {key === 'D9' ? 'Navamsa' : 'Dashamsha'}</Text><Body>Ascendant: {lens.divisional?.[key].ascendant?.sign ?? 'Unavailable without exact time'} · Venus: {lens.divisional?.[key].positions.Venus.sign}</Body></View>)}<Body>These divisions are sensitive to birth time accuracy.</Body></Card></>}
+    <GhostButton title="What are houses?" onPress={() => router.push({ pathname: '/learn', params: { section: 'houses' } })}/>
     <GhostButton title={showMethod ? 'Hide calculation details' : 'Why am I seeing this?'} onPress={() => setShowMethod(!showMethod)}/>
     {showMethod && <Card><Body>{lens.zodiac} zodiac · {lens.house_system} houses · {lens.metadata.node_mode} lunar node</Body><Body>Calculated for {lens.metadata.birth_utc} with Swiss Ephemeris {lens.metadata.ephemeris_version}.</Body><Body>Ephemeris flags: {JSON.stringify(lens.metadata.actual_ephemeris_flags)}</Body></Card>}
     {lens.warnings.map((warning, i) => <View key={i} style={{ borderLeftWidth: 2, borderColor: colors.paper, paddingLeft: 14 }}><Body>{warning}</Body></View>)}

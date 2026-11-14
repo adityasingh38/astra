@@ -35,6 +35,10 @@ def test_profile_chart_transit_comparison_and_export(monkeypatch):
         assert chart.status_code == 200
         assert len(saved) == 1
         assert chart.json()["vedic"]["moon_nakshatra"]["name"]
+        moolank = client.get(f"/birth-profiles/{first_id}/moolank", headers=headers)
+        assert moolank.status_code == 200
+        assert moolank.json()["number"] == 3
+        assert moolank.json()["calculation"]["steps"] == [21, 3]
         transit = client.get(f"/birth-profiles/{first_id}/transits?day=2026-11-13", headers=headers)
         assert transit.status_code == 200
         assert transit.json()["date_local"] == "2026-11-13"

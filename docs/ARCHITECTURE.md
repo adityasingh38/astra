@@ -25,6 +25,8 @@ The server returns both a shared `birth_profile` and separate `western` and `ved
 - Readings are unavailable if the engine cannot use the pinned data. Moon and D9 relationship passages are withheld when birth time is unknown.
 - Today samples current planetary positions at 12:00 in the profile's timezone and reports major aspects within 2° of natal planets; it is a snapshot rather than a forecast for the whole day.
 - Connections compares major Western aspects within 5° and shows Vedic Moon nakshatra/sign and D9 Venus sign. There is no compatibility score; Moon comparisons are withheld if either birth time is unknown.
+- The field guide is authored in the mobile app and can be opened without a birth profile. It explains a placement as planet theme + sign style + house area, covers all twelve signs and houses, and links to further reading. Personalized examples use the selected chart where available.
+- Moolank is computed independently of the chart from the day of birth by repeated digit addition to 1–9. The API returns every intermediate sum, one conventional planetary association, and three authored reflections. The method follows https://www.kaalapanchang.com/mulank; this is popular Indian numerology rather than classical Jyotish, and is presented separately from the two chart lenses.
 
 ## Risks and release gates
 

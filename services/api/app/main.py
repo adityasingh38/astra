@@ -18,6 +18,7 @@ from .engine import calculate, verified_ephemeris_path
 from .geocoding import search_places
 from .interpretation import ReadingRequest, compose_reading
 from .models import BirthProfile
+from .numerology import moolank_for
 from .relationships import compatibility, transits
 from .storage import ProfileStore, row_to_profile
 from .timezone import BirthTimeError, resolve_utc
@@ -126,6 +127,12 @@ async def profile_chart(profile_id: UUID, _user: str = Depends(current_user), au
     chart = _chart(row_to_profile(row))
     await store.save_chart(profile_id, chart)
     return chart
+
+
+@app.get("/birth-profiles/{profile_id}/moolank")
+async def profile_moolank(profile_id: UUID, _user: str = Depends(current_user), authorization: str | None = Header(default=None)):
+    row = await ProfileStore(bearer_token(authorization)).get(profile_id)
+    return moolank_for(date.fromisoformat(row["birth_date"]))
 
 
 @app.patch("/birth-profiles/{profile_id}")
